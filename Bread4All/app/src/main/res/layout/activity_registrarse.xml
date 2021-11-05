@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldNombre"
+        android:layout_width="288dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/ic_nombre"
+        android:textColorHint="#FDFCFC"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegistro"
+        app:placeholderTextColor="#F8F8F8"
+        app:startIconContentDescription="@string/ic_nombre"
+        app:startIconDrawable="@drawable/ic_nombre">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_500" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textTelefono"
+        android:layout_width="282dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/ic_telefono"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldNombre"
+        app:startIconContentDescription="@string/ic_telefono"
+        app:startIconDrawable="@drawable/ic_telefono">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFecha"
+        android:layout_width="283dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/ic_fecha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTelefono"
+        app:startIconContentDescription="@string/ic_fecha"
+        app:startIconDrawable="@drawable/ic_fecha"
+        app:suffixText="@string/suffix_fecha">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldEmail"
+        android:layout_width="295dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/label"
+        android:textColorHint="#FDFCFC"
+        app:boxBackgroundColor="@color/material_on_surface_stroke"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFecha"
+        app:startIconContentDescription="@string/ic_email"
+        app:startIconDrawable="@drawable/ic_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_500" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldClave"
+        android:layout_width="295dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/ic_clave"
+        android:textColorHint="#FFFFFF"
+        app:boxBackgroundColor="@color/material_on_surface_stroke"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldEmail"
+        app:startIconContentDescription="@string/ic_clave"
+        app:startIconDrawable="@drawable/ic_clave">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_500"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textViewRegistro"
+        android:layout_width="286dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/txtBienvenido" />
+
+    <Button
+        android:id="@+id/ButtonRegistrarse"
+        android:layout_width="290dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/Button_Registrarse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFieldClave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
