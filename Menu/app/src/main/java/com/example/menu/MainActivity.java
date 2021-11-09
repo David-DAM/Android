@@ -21,11 +21,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar topAppBar= (Toolbar) findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.top_app_bar,menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         int id=item.getItemId();
@@ -34,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.favorite:
                 Snackbar.make(findViewById(R.id.topAppBar),"Has elegido favorito",Snackbar.LENGTH_SHORT).show();
                 return true;
+            case R.id.search:
+                Snackbar.make(findViewById(R.id.topAppBar),"Has elegido search",Snackbar.LENGTH_SHORT).show();
+                return true;
+            case R.id.more:
+                Snackbar.make(findViewById(R.id.topAppBar),"Has elegido more",Snackbar.LENGTH_SHORT).show();
+                return true;
             default:
                 return onOptionsItemSelected(item);
         }
     }
+
 }
