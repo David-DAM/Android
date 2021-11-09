@@ -11,10 +11,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Datos
     private List<Puntuacion> puntuaciones;
-
+    //LayoutManager: Especifica cómo queremos que aparezcan los datos en el RecyclerView
     private RecyclerView.LayoutManager llm;
-
+    //Adapter: Carga los datos en el RecyclerView
     private RVAdapter adapter;
 
     @Override
@@ -22,20 +23,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView rv=(RecyclerView) findViewById(R.id.rv);
+        RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
 
+        //Si no va a cambiar el tamaño
         rv.setHasFixedSize(true);
 
-        llm= new LinearLayoutManager(this);
-        //llm=new GridLayoutManager(this,2);
+        //Creamos un LayoutManager
+        llm = new LinearLayoutManager(this);
+        //llm = new GridLayoutManager(this,2);
 
+        //Especificamos el layoutManager para el RecyclerView
         rv.setLayoutManager(llm);
 
+        //Creamos los datos de ejemplo
         inicializarDatosEjemplo();
 
-        adapter=new RVAdapter(this,puntuaciones);
+        //Asignamos los datos, a utilizar, al adaptador
+        adapter = new RVAdapter(this, puntuaciones);
 
+        //Especificamos el adaptador para el RecyclerView
         rv.setAdapter(adapter);
+
     }
 
     private void inicializarDatosEjemplo(){
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         puntuaciones.add(new Puntuacion("Petra Álvarez", 1000, R.drawable.ic_adb_64));
         puntuaciones.add(new Puntuacion("Domingo Redondo", 1100, R.drawable.ic_alarm_add_64));
         puntuaciones.add(new Puntuacion("Amparo Leal", 1200, R.drawable.ic_android_64));
+
     }
 
 }
