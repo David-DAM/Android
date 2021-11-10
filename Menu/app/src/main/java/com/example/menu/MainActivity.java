@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(R.id.topAppBar),"Has elegido more",Snackbar.LENGTH_SHORT).show();
                 return true;
             default:
-                return onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
     }
 
