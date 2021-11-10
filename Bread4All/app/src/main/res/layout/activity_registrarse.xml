@@ -31,8 +31,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textTelefono"
-        android:layout_width="282dp"
-        android:layout_height="53dp"
+        android:layout_width="288dp"
+        android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:hint="@string/ic_telefono"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,14 +43,15 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:background="@color/purple_500" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textFecha"
-        android:layout_width="283dp"
-        android:layout_height="53dp"
+        android:layout_width="288dp"
+        android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:hint="@string/ic_fecha"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,20 +63,21 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/purple_500" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textFieldEmail"
-        android:layout_width="295dp"
-        android:layout_height="56dp"
+        android:layout_width="288dp"
+        android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:hint="@string/label"
         android:textColorHint="#FDFCFC"
         app:boxBackgroundColor="@color/material_on_surface_stroke"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFecha"
         app:startIconContentDescription="@string/ic_email"
@@ -90,15 +92,15 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textFieldClave"
-        android:layout_width="295dp"
-        android:layout_height="56dp"
+        android:layout_width="288dp"
+        android:layout_height="58dp"
         android:layout_marginTop="8dp"
         android:hint="@string/ic_clave"
         android:textColorHint="#FFFFFF"
         app:boxBackgroundColor="@color/material_on_surface_stroke"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldEmail"
         app:startIconContentDescription="@string/ic_clave"
@@ -118,7 +120,7 @@
         android:layout_height="68dp"
         android:layout_marginTop="100dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/txtBienvenido"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="48sp"
         android:textStyle="bold"
@@ -130,12 +132,12 @@
 
     <Button
         android:id="@+id/ButtonRegistrarse"
-        android:layout_width="290dp"
+        android:layout_width="284dp"
         android:layout_height="49dp"
         android:layout_marginTop="24dp"
         android:text="@string/Button_Registrarse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldClave" />
 

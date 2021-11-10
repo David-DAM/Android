@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".AcercaDeActivity"
-            android:label="Acerca de ..."></activity>
+            android:label="Acerca de ..."/>
     </application>
 
 </manifest>

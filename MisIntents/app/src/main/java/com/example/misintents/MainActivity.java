@@ -39,12 +39,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void crearAlarma() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_REMINDER)
-                .putExtra(Intent.EXTRA_TEXT, "Hola")
-                .putExtra(Intent.EXTRA_ALARM_COUNT, 9)
-                ;
-        startActivity(intent);
 
-    }
 }

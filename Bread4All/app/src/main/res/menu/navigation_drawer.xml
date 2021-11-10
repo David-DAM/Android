@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/group1"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/item1"
-            android:icon="@drawable/ic_historial"
-            android:title="@string/title_historial"
-            android:checked="true" />
-        <item
-            android:id="@+id/item2"
-            android:icon="@drawable/ic_metodo_pago"
-            android:title="@string/title_metodo_pago" />
-        <item
-            android:id="@+id/item3"
-            android:icon="@drawable/ic_ayuda"
-            android:title="@string/title_ayuda" />
-    </group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TopAppBar">
+    <item
+        android:id="@+id/historial"
+        android:icon="@drawable/ic_historial"
+        android:title="@string/title_historial"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/metodo_pago"
+        android:icon="@drawable/ic_metodo_pago"
+        android:title="@string/title_metodo_pago"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/ayuda"
+        android:icon="@drawable/ic_ayuda"
+        android:title="@string/title_ayuda"
+        app:showAsAction="ifRoom"/>
+
 </menu>

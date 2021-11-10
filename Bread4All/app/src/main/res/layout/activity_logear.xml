@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="#7B1FA2"
+        android:onClick="LanzarInicio"
         android:text="@string/Button_logear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,18 +68,16 @@
 
     <Button
         android:id="@+id/ButtonRegistrarse"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="218dp"
+        android:layout_width="146dp"
+        android:layout_height="62dp"
+        android:onClick="LanzarRegistrarse"
         android:text="@string/Button_Registrarse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ButtonLogear"
         app:layout_constraintTop_toBottomOf="@+id/textFieldClave"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.034" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -88,6 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        tools:srcCompat="@android:drawable/ic_menu_myplaces" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
