@@ -17,6 +17,8 @@
     <string name="ic_fecha">Fecha de nacimiento</string>
     <string name="suffix_fecha">dd/mm/yyyy</string>
     <string name="txtBienvenido">Bienvenido</string>
-    <string name="navigation_drawer_open">open</string>
-    <string name="navigation_drawer_close">close</string>
+    <string name="navigation_drawer_open">Abierto</string>
+    <string name="navigation_drawer_close">Cerrado</string>
+    <string name="title_pgweb">Pagina web</string>
+    <string name="title_preferencias">Preferencias</string>
 </resources>

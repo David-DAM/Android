@@ -135,6 +135,7 @@
         android:layout_width="284dp"
         android:layout_height="49dp"
         android:layout_marginTop="24dp"
+        android:onClick="LanzarInicio"
         android:text="@string/Button_Registrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

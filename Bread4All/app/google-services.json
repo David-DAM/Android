@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "931055581360",
+    "project_id": "bread4all-14e0d",
+    "storage_bucket": "bread4all-14e0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931055581360:android:f9248ea22c4d93cfc5a375",
+        "android_client_info": {
+          "package_name": "com.example.bread4all"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931055581360-i842g6gu5guv9bt5judkg4c4o4u0el97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD20JR9uh1it5WcTbLQjrqJGors8SNYaG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931055581360-i842g6gu5guv9bt5judkg4c4o4u0el97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bread4All</string>
+    <string name="label">Mail</string>
+    <string name="ic_email">Email</string>
+    <string name="ic_clave">Password</string>
+    <string name="Button_logear">Log in</string>
+    <string name="title_historial">History</string>
+    <string name="title_metodo_pago">Payment method</string>
+    <string name="title_ayuda">Help</string>
+    <string name="header_nombre">User</string>
+    <string name="header_correo">Mail</string>
+    <string name="title_top_bar">Menu</string>
+    <string name="Button_Registrarse">Sign in</string>
+    <string name="ic_nombre">Name</string>
+    <string name="txtRegistro">Sign in</string>
+    <string name="ic_telefono">Telephone</string>
+    <string name="ic_fecha">Birthday</string>
+    <string name="suffix_fecha">dd/mm/yyyy</string>
+    <string name="txtBienvenido">Welcome</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="title_pgweb">Website</string>
+    <string name="title_preferencias">Preferences</string>
+</resources>

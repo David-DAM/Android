@@ -18,5 +18,14 @@
         android:icon="@drawable/ic_ayuda"
         android:title="@string/title_ayuda"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/pgweb"
+        android:icon="@drawable/ic_pgweb"
+        android:title="@string/title_pgweb"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/Preferencias"
+        android:title="@string/title_preferencias"
+        app:showAsAction="ifRoom"/>
 
 </menu>
