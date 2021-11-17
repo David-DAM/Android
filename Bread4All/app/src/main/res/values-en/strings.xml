@@ -22,4 +22,6 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="title_pgweb">Website</string>
     <string name="title_preferencias">Preferences</string>
+    <string name="Moneda">Currency</string>
+    <string name="titulo_moneda">Your current currency</string>
 </resources>

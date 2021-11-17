@@ -86,6 +86,10 @@ public class InicioActivity extends AppCompatActivity {
             case R.id.pgweb:
                 Intent web=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.pansandcompany.com/"));
                 startActivity(web);
+                return true;
+            case R.id.Preferencias:
+
+                return  true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -94,13 +98,16 @@ public class InicioActivity extends AppCompatActivity {
     private void inicializarProductos(){
         productos = new ArrayList<>();
 
+
+
         eventListener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int pos=0;
 
+                //(int)dataSnapshot.child("Producto"+pos+"/fotoId").getValue()
                 while (dataSnapshot.child("Producto"+pos).exists()){
-                    productos.add(new Producto(dataSnapshot.child("Nombre").getValue().toString(),(double)dataSnapshot.child("Precio").getValue(),(int)dataSnapshot.child("fotoId").getValue()));
+                    productos.add(new Producto(dataSnapshot.child("Producto"+pos+"/Nombre").getValue().toString(),(double)dataSnapshot.child("Producto"+pos+"/Precio").getValue(),R.drawable.ic_clave));
                     pos++;
                 }
 
@@ -112,7 +119,7 @@ public class InicioActivity extends AppCompatActivity {
             }
         };
 
-
+        dbReference.addValueEventListener(eventListener);
 
 
     }

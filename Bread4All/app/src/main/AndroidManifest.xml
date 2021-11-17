@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bread4All">
         <activity
+            android:name=".PreferencesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_preferences" />
+        <activity
             android:name=".LogearActivity"
             android:exported="true">
             <intent-filter>
@@ -20,11 +24,10 @@
         </activity>
         <activity
             android:name=".RegistrarseActivity"
-            android:label="Registrarse"/>
+            android:label="Registrarse" />
         <activity
             android:name=".InicioActivity"
-            android:label="Inicio"/>
-
+            android:label="Inicio" />
     </application>
 
 </manifest>
