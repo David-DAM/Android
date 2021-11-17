@@ -3,6 +3,7 @@ package com.example.bread4all;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +29,21 @@ public class InicioActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager llm;
     private RVAdapter adapter;
 
+    private ValueEventListener eventListener;
+    private DatabaseReference dbReference;
+
+    private static String TAGLOG="firebase-db";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-        Toolbar topAppBar= (Toolbar) findViewById(R.id.topAppBar);
+        Toolbar topAppBar=  findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
+        dbReference= FirebaseDatabase.getInstance("https://bread4all-14e0d-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Productos");
+
+        RecyclerView rv = findViewById(R.id.rv);
 
         rv.setHasFixedSize(true);
 
@@ -81,7 +94,25 @@ public class InicioActivity extends AppCompatActivity {
     private void inicializarProductos(){
         productos = new ArrayList<>();
 
-        //puntuaciones.add(new Puntuacion("Ana García", 100, R.drawable.ic_adb_64));
+        eventListener=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int pos=0;
+
+                while (dataSnapshot.child("Producto"+pos).exists()){
+                    productos.add(new Producto(dataSnapshot.child("Nombre").getValue().toString(),(double)dataSnapshot.child("Precio").getValue(),(int)dataSnapshot.child("fotoId").getValue()));
+                    pos++;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAGLOG,"Error",databaseError.toException());
+            }
+        };
+
+
 
 
     }
