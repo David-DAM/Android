@@ -3,7 +3,7 @@
     <PreferenceCategory app:title="@string/Moneda">
 
         <ListPreference
-            app:defaultValue="Euro"
+            app:defaultValue="Euros"
             app:entries="@array/moneda_entrada"
             app:entryValues="@array/moneda_valores"
             app:key="moneda"

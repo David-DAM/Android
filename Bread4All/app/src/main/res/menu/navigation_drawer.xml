@@ -24,6 +24,11 @@
         android:title="@string/title_pgweb"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/SMS"
+        android:title="@string/SMS"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/Preferencias"
         android:title="@string/title_preferencias"
         app:showAsAction="ifRoom"/>

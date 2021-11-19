@@ -1,7 +1,10 @@
 package com.example.bread4all;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +23,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +61,8 @@ public class InicioActivity extends AppCompatActivity {
 
     private static String TAGLOG="firebase-db";
 
+    String telefono,mensaje;
+    int PETICION_PERMISOS_SMS=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,8 @@ public class InicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         Toolbar topAppBar=  findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
+
+        verificarPermisos();
 
         dbReference= FirebaseDatabase.getInstance("https://bread4all-14e0d-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Productos");
 
@@ -158,6 +168,14 @@ public class InicioActivity extends AppCompatActivity {
                 Intent pref=new Intent(this,PreferencesActivity.class);
                 activityResultLauncher.launch(pref);
                 return  true;
+            case R.id.SMS:
+                telefono = "658233695";
+                mensaje = "Introduzca su mensaje";
+
+                Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + telefono));
+                smsIntent.putExtra("sms_body", mensaje);
+                startActivity(smsIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -238,9 +256,21 @@ public class InicioActivity extends AppCompatActivity {
 
         String monedaPreference;
 
-        monedaPreference= mySharedPreferences.getString("moneda","euro");
+        monedaPreference= mySharedPreferences.getString("moneda","euros");
 
         textViewMoneda.setText(monedaPreference);
+    }
+
+    public void verificarPermisos(){
+        int permisos= ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+
+        if (permisos== PackageManager.PERMISSION_GRANTED){
+            Snackbar.make(findViewById(R.id.topAppBar),"Permisos concedidos",Snackbar.LENGTH_SHORT).show();
+        }else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    PETICION_PERMISOS_SMS);
+        }
     }
 
 
