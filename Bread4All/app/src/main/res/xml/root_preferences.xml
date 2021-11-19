@@ -2,33 +2,22 @@
 
     <PreferenceCategory app:title="@string/Moneda">
 
-        <EditTextPreference
-            app:key="Algo"
-            app:title="@string/titulo_moneda"
-            app:useSimpleSummaryProvider="true" />
-
         <ListPreference
             app:defaultValue="Euro"
             app:entries="@array/moneda_entrada"
             app:entryValues="@array/moneda_valores"
-            app:key="Moneda"
+            app:key="moneda"
             app:title="@string/titulo_moneda"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/Apariencia">
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:key="Apariencia"
+            app:title="@string/Modo_oscuro"
+            />
 
     </PreferenceCategory>
 

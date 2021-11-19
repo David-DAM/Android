@@ -79,14 +79,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textFieldClave"
         app:layout_constraintVertical_bias="0.034" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="161dp"
-        android:layout_height="112dp"
+    <TextView
+        android:id="@+id/txtLogo"
+        android:layout_width="253dp"
+        android:layout_height="119dp"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="48sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textFieldEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/ic_menu_myplaces" />
+        app:layout_constraintVertical_bias="0.804" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

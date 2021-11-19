@@ -9,10 +9,10 @@
         android:title="@string/title_historial"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/metodo_pago"
-        android:icon="@drawable/ic_metodo_pago"
+        android:id="@+id/acerca_de"
+        android:icon="@drawable/ic_ayuda"
         android:title="@string/title_metodo_pago"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/ayuda"
         android:icon="@drawable/ic_ayuda"

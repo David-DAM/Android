@@ -11,8 +11,8 @@
         android:theme="@style/Theme.Bread4All">
         <activity
             android:name=".PreferencesActivity"
-            android:exported="false"
-            android:label="@string/title_activity_preferences" />
+            android:exported="true"
+            />
         <activity
             android:name=".LogearActivity"
             android:exported="true">
