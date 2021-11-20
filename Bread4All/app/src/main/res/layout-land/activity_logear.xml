@@ -10,11 +10,12 @@
         android:id="@+id/textFieldEmail"
         android:layout_width="295dp"
         android:layout_height="56dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="144dp"
         android:hint="@string/label"
         android:textColorHint="#FDFCFC"
         app:boxBackgroundColor="@color/material_on_surface_stroke"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:startIconContentDescription="@string/ic_email"
@@ -27,6 +28,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textFieldClave"
         android:layout_width="295dp"
@@ -37,6 +39,7 @@
         app:boxBackgroundColor="@color/material_on_surface_stroke"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldEmail"
         app:startIconContentDescription="@string/ic_clave"
@@ -50,7 +53,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <Button
         android:id="@+id/ButtonLogear"
         android:layout_width="wrap_content"
@@ -61,10 +63,10 @@
         android:text="@string/Button_logear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textFieldClave"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.065" />
 
     <Button
         android:id="@+id/ButtonRegistrarse"
@@ -77,7 +79,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ButtonLogear"
         app:layout_constraintTop_toBottomOf="@+id/textFieldClave"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.082" />
 
     <TextView
         android:id="@+id/txtLogo"
@@ -92,6 +94,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.239" />
+
+    <Button
+        android:id="@+id/buttonSalir"
+        android:layout_width="106dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/Salir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ButtonRegistrarse"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonNotificacion"
+        android:layout_width="111dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="304dp"
+        android:text="@string/Notificacion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSalir"
+        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonSalir"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

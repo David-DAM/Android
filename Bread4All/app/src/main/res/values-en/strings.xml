@@ -30,4 +30,7 @@
     <string name="ProductoTop">The best product</string>
     <string name="SMS">SMS</string>
     <string name="Añadir">Add</string>
+    <string name="opinion">In our opinion</string>
+    <string name="Salir">Close</string>
+    <string name="Notificacion">Create alert</string>
 </resources>

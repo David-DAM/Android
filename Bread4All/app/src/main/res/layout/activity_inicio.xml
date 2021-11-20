@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/textViewCantidad"
-        android:layout_width="61dp"
+        android:layout_width="67dp"
         android:layout_height="42dp"
         android:layout_marginStart="16dp"
         android:text="@string/Saldo_base"

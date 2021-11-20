@@ -94,4 +94,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.804" />
 
+    <Button
+        android:id="@+id/buttonSalir"
+        android:layout_width="106dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="56dp"
+        android:text="@string/Salir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ButtonRegistrarse"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <Button
+        android:id="@+id/buttonNotificacion"
+        android:layout_width="111dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="80dp"
+        android:text="@string/Notificacion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSalir"
+        app:layout_constraintTop_toTopOf="@+id/buttonSalir"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

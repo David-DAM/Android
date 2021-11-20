@@ -42,8 +42,8 @@
 
     <TextView
         android:id="@+id/textViewCantidad"
-        android:layout_width="61dp"
-        android:layout_height="42dp"
+        android:layout_width="69dp"
+        android:layout_height="40dp"
         android:layout_marginStart="76dp"
         android:text="@string/Saldo_base"
         app:layout_constraintBottom_toBottomOf="parent"
