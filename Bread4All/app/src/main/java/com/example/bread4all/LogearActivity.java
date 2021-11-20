@@ -15,12 +15,12 @@ public class LogearActivity extends AppCompatActivity {
 
 
     }
-
+    //Metodo para abrir la Activity de registro
     public void LanzarRegistrarse(View view){
         Intent i=new Intent(this,RegistrarseActivity.class);
         startActivity(i);
     }
-
+    //Metodo para abrir la Activity de inicio
     public void LanzarInicio(View view){
         Intent i=new Intent(this,InicioActivity.class);
         startActivity(i);

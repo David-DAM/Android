@@ -1,5 +1,5 @@
 <resources>
-    <!-- Reply Preference -->
+    //Nombres y valores de entrada para las distintas moenda
     <string-array name="moneda_entrada">
         <item>Euros</item>
         <item>Dolares</item>

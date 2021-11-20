@@ -23,7 +23,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
 
     //Constructor en el que cargamos los datos a visualizar
-    //e inicializamos el inflador en el contexto de la activity
+    //Inicializamos el inflador en el contexto de la activity
     RVAdapter(Context contexto, List<Producto> productos) {
         inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.productos = productos;
@@ -48,7 +48,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
     }
 
-    //1º CREAMOS LA VISTA SIN PERSONALIZAR CON DATOS
+    //CREAMOS LA VISTA SIN PERSONALIZAR CON DATOS
     //Ya devuelve un ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -60,7 +60,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         return pvh;
     }
 
-    //2º RELLENAR LOS DATOS DEL VIEWHOLDER
+    //RELLENAR LOS DATOS DEL VIEWHOLDER
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
@@ -82,7 +82,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     }
 
-    //3º INDICAMOS EL NÚMERO DE ELEMENTOS A VISUALIZAR
+    //INDICAMOS EL NÚMERO DE ELEMENTOS A VISUALIZAR
     @Override
     public int getItemCount() {
         return productos.size();

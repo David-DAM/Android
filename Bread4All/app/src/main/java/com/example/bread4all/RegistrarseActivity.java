@@ -14,7 +14,7 @@ public class RegistrarseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrarse);
 
     }
-
+    //Metodo para abrir la Activity de inicio
     public void LanzarInicio(View view){
         Intent i=new Intent(this,InicioActivity.class);
         startActivity(i);

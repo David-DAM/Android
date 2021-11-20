@@ -77,6 +77,7 @@ public class InicioActivity extends AppCompatActivity {
 
         nombreTop=findViewById(R.id.textViewNombre);
 
+        //Eventlistener para obtener el mejor producto de la base de datos de FireBase y mostratlo en el TextView
         eventListener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,9 +98,9 @@ public class InicioActivity extends AppCompatActivity {
         dbReference.addValueEventListener(eventListener);
 
         textViewMoneda=findViewById(R.id.textViewMoneda);
-
+        //Cargar preferencias al iniciar
         loadPref();
-
+        //Cargar preferencias cuando cambien
         activityResultLauncher= registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -121,9 +122,9 @@ public class InicioActivity extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
 
         rv.setLayoutManager(llm);
-
+        //Insertar registros en SQLite
         insertarRegistros();
-
+        //Obtener registros de SQLite para almacenarlos en el array de productos y poder llenar el recyclerview
         inicializarProductos();
 
         adapter = new RVAdapter(this, productos);
@@ -137,13 +138,14 @@ public class InicioActivity extends AppCompatActivity {
         return true;
     }
 
+    //Metodo para dar funcionalidad al pulsar los distintos botones del menu superior
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         int id=item.getItemId();
 
         switch (id){
             case R.id.historial:
-                Snackbar.make(findViewById(R.id.topAppBar),"Has elegido historial",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.topAppBar),"Estamos trabajando en el historial",Snackbar.LENGTH_SHORT).show();
                 return true;
             case R.id.acerca_de:
                 try {
@@ -180,7 +182,7 @@ public class InicioActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //Metodo que accede al txt de la carpeta raw en recursos y lo muestra con un snackbar
     public void mostrar() throws IOException {
         String linea;
         InputStream inputStream=this.getResources().openRawResource(R.raw.acercade);
@@ -192,7 +194,7 @@ public class InicioActivity extends AppCompatActivity {
             }
         }
     }
-
+    //Metodo que  obtener registros de SQLite para almacenarlos en el array de productos y poder llenar el recyclerview
     private void inicializarProductos(){
         productos = new ArrayList<>();
 
@@ -210,7 +212,7 @@ public class InicioActivity extends AppCompatActivity {
 
 
     }
-
+    //Insertar registros en SQLite al inicializar la Activity, en el caso de que ya se hayan inicializado previamente no volvera a introducir los datos
     public void insertarRegistros(){
         String nombres[]={"Bimbo","Artesano","Viena"};
         double precios[]={2.50,4.50,3.00};
@@ -233,7 +235,7 @@ public class InicioActivity extends AppCompatActivity {
 
 
     }
-
+    //Metodo que comprueba si ya se han insertado los datos previamente
     public boolean inicializados(){
         boolean res=false;
         String [] camposMostrar= new String[]{"nombre"};
@@ -250,7 +252,7 @@ public class InicioActivity extends AppCompatActivity {
 
         return res;
     }
-
+    //Metodo que carga las preferencias que haya seleccionado el usuario y modifica el TextView para mostrar los cambios
     public void loadPref(){
         SharedPreferences mySharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -260,7 +262,7 @@ public class InicioActivity extends AppCompatActivity {
 
         textViewMoneda.setText(monedaPreference);
     }
-
+    //Metodo que verifica si hemos otorgado los permisos solicitados, en caso negativo se nos solicitaran por pantalla
     public void verificarPermisos(){
         int permisos= ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
 
