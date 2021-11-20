@@ -11,8 +11,12 @@ import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 
@@ -52,7 +56,7 @@ public class InicioActivity extends AppCompatActivity {
     SQLiteDatabase bbdd;
     bbddRecientes conexion;
 
-    TextView textViewMoneda;
+    TextView textViewMoneda,textViewCantidad,textViewProductoTop;
     ActivityResultLauncher<Intent> activityResultLauncher;
 
     TextView nombreTop;
@@ -70,12 +74,25 @@ public class InicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         Toolbar topAppBar=  findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
-
+        //Verificamos los permisos
         verificarPermisos();
-
+        //Obetenemos referencia a la base de datos de FireBase
         dbReference= FirebaseDatabase.getInstance("https://bread4all-14e0d-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Productos");
 
         nombreTop=findViewById(R.id.textViewNombre);
+        textViewCantidad=findViewById(R.id.textViewCantidad);
+        textViewProductoTop=findViewById(R.id.textViewProductoTop);
+
+        textViewProductoTop.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Snackbar.make(findViewById(R.id.topAppBar),"Segun nuestra opinion",Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        //Registramos el Textview para el menu contextual
+        registerForContextMenu(textViewCantidad);
 
         //Eventlistener para obtener el mejor producto de la base de datos de FireBase y mostratlo en el TextView
         eventListener=new ValueEventListener() {
@@ -94,7 +111,7 @@ public class InicioActivity extends AppCompatActivity {
                 Log.e(TAGLOG,"Error",databaseError.toException());
             }
         };
-
+        //Listener que comprueba si cambian los datos en FireBase
         dbReference.addValueEventListener(eventListener);
 
         textViewMoneda=findViewById(R.id.textViewMoneda);
@@ -110,7 +127,7 @@ public class InicioActivity extends AppCompatActivity {
                     }
                 }
         );
-
+        //Conexion con la base de datos de SQLite
         conexion=new bbddRecientes(this,"bbddRecientes",null,1);
 
         bbdd=conexion.getWritableDatabase();
@@ -126,15 +143,15 @@ public class InicioActivity extends AppCompatActivity {
         insertarRegistros();
         //Obtener registros de SQLite para almacenarlos en el array de productos y poder llenar el recyclerview
         inicializarProductos();
-
+        //Pasamos la lista de productos al adapter para llenar el recyclerview
         adapter = new RVAdapter(this, productos);
 
         rv.setAdapter(adapter);
     }
-
+    //Metodo para crear el menu superior
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.navigation_drawer,menu);
+        getMenuInflater().inflate(R.menu.menu_superior,menu);
         return true;
     }
 
@@ -182,6 +199,34 @@ public class InicioActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    //Metodo para crear el menu contextual
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater=getMenuInflater();
+        int id=v.getId();
+
+        switch (id){
+            case R.id.textViewCantidad:
+                inflater.inflate(R.menu.menu_contextual,menu);
+                break;
+        }
+    }
+    //Metodo para dar funcion a las opciones del menu contextual
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        switch (item.getItemId()){
+            case R.id.Añadir:
+                Snackbar.make(findViewById(R.id.topAppBar),"Estamos trabajando en aumentar el saldo",Snackbar.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
     //Metodo que accede al txt de la carpeta raw en recursos y lo muestra con un snackbar
     public void mostrar() throws IOException {
         String linea;

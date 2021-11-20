@@ -15,7 +15,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/ayuda"
-        android:icon="@drawable/ic_ayuda"
+        android:icon="@drawable/ic_email"
         android:title="@string/title_ayuda"
         app:showAsAction="ifRoom"/>
     <item
