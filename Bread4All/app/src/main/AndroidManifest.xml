@@ -28,6 +28,7 @@
         <activity
             android:name=".InicioActivity"
             android:label="Inicio" />
+        <activity android:name=".ProductoActivity"/>
     </application>
 
 </manifest>
