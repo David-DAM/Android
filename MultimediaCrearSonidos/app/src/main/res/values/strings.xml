@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MultimediaCrearSonidos</string>
+    <string name="Reproducir">reproducir</string>
+    <string name="Reproducir2">repro2</string>
+    <string name="ReproducirVideo">reprovideo</string>
+</resources>
