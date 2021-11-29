@@ -24,8 +24,8 @@
         android:title="@string/title_pgweb"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/SMS"
-        android:title="@string/SMS"
+        android:id="@+id/llamadas"
+        android:title="@string/historial_llamadas"
         app:showAsAction="ifRoom"/>
 
     <item

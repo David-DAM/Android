@@ -38,4 +38,6 @@
     <string name="opinion">Segun nuestra opinion</string>
     <string name="Salir">Salir</string>
     <string name="Notificacion">Crear aviso</string>
+    <string name="lista_de_recientes">Lista de recientes</string>
+    <string name="historial_llamadas">Historial de llamadas</string>
 </resources>

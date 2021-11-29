@@ -74,7 +74,7 @@ public class InicioActivity extends AppCompatActivity {
     private static String TAGLOG="firebase-db";
 
     String telefono,mensaje;
-    int PETICION_PERMISOS_SMS=0;
+    int PETICION_PERMISOS_LLAMADAS=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +165,8 @@ public class InicioActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.historial:
-                Snackbar.make(findViewById(R.id.topAppBar),"Estamos trabajando en el historial",Snackbar.LENGTH_SHORT).show();
+                Intent recientes=new Intent(this,RecientesActivity.class);
+                startActivity(recientes);
                 return true;
             case R.id.acerca_de:
                 try {
@@ -190,14 +191,71 @@ public class InicioActivity extends AppCompatActivity {
                 Intent pref=new Intent(this,PreferencesActivity.class);
                 activityResultLauncher.launch(pref);
                 return  true;
-            case R.id.SMS:
-                String text=displaySmsLog();
-                Snackbar.make(findViewById(R.id.topAppBar),text,Snackbar.LENGTH_SHORT).show();
+            case R.id.llamadas:
+                String text=llamadas();
+                Snackbar.make(findViewById(R.id.topAppBar),text,Snackbar.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public String llamadas(){
+
+        StringBuilder texto=new StringBuilder();
+        String text;
+
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)== PackageManager.PERMISSION_DENIED ||
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CALL_LOG)== PackageManager.PERMISSION_DENIED){
+
+        }
+
+        String [] projection= new String[]{CallLog.Calls._ID,CallLog.Calls.TYPE,CallLog.Calls.NUMBER};
+
+        Uri llamadasUri= CallLog.Calls.CONTENT_URI;
+
+        Cursor cur;
+
+        ContentResolver cr=getContentResolver();
+
+        cur=cr.query(llamadasUri,projection,null,null,null);
+
+        if (cur.getCount()!=0){
+            cur.moveToFirst();
+
+            int tipo,id,colId,colTipo,colTelefono;
+            String tipoLlamada="",telefono;
+
+            colId=cur.getColumnIndex(CallLog.Calls._ID);
+            colTipo=cur.getColumnIndex(CallLog.Calls.TYPE);
+            colTelefono=cur.getColumnIndex(CallLog.Calls.NUMBER);
+
+            do {
+                id=cur.getInt(colId);
+                tipo=cur.getInt(colTipo);
+                telefono=cur.getString(colTelefono);
+
+                if (tipo==CallLog.Calls.INCOMING_TYPE){
+                    tipoLlamada="Entrada";
+                }else if (tipo==CallLog.Calls.OUTGOING_TYPE){
+                    tipoLlamada="Salida";
+                }else if (tipo==CallLog.Calls.MISSED_TYPE){
+                    tipoLlamada="Perdida";
+                }
+
+                texto.append(id+" - "+tipoLlamada+" - "+telefono+"\n");
+            }while (cur.moveToNext());
+
+            cur.close();
+        }
+
+        text=texto.toString();
+
+        return text;
+
+
+    }
+
     //Metodo para crear el menu contextual
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -245,19 +303,10 @@ public class InicioActivity extends AppCompatActivity {
         productos.add(new Producto("Bimbo",2.50,R.drawable.ic_historial));
         productos.add(new Producto("Artesano",4.50,R.drawable.ic_historial));
         productos.add(new Producto("Viena",3.00,R.drawable.ic_historial));
-        /*
-        String [] camposMostrar= new String[]{"nombre","precio","foto"};
+        productos.add(new Producto("Molde",1.00,R.drawable.ic_historial));
+        productos.add(new Producto("Italiano",5.00,R.drawable.ic_historial));
+        productos.add(new Producto("Tostado",3.50,R.drawable.ic_historial));
 
-        if (bbdd!=null){
-            Cursor c1= bbdd.query("recientes",camposMostrar,null,null,null,null,null);
-
-            if (c1.moveToFirst()){
-                do {
-                    productos.add(new Producto(c1.getString(0),c1.getDouble(1),c1.getInt(2) ));
-                }while (c1.moveToNext());
-            }
-        }
-        */
 
     }
 
@@ -274,14 +323,13 @@ public class InicioActivity extends AppCompatActivity {
     }
     //Metodo que verifica si hemos otorgado los permisos solicitados, en caso negativo se nos solicitaran por pantalla
     public void verificarPermisos(){
-        int permisos= ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_CALL_LOG)== PackageManager.PERMISSION_DENIED ||
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)== PackageManager.PERMISSION_DENIED ||
+                ActivityCompat.checkSelfPermission(this,Manifest.permission.READ_CALL_LOG)== PackageManager.PERMISSION_DENIED){
 
-        if (permisos== PackageManager.PERMISSION_GRANTED){
-            Snackbar.make(findViewById(R.id.topAppBar),"Permisos concedidos",Snackbar.LENGTH_SHORT).show();
-        }else {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.SEND_SMS},
-                    PETICION_PERMISOS_SMS);
+                    new String[]{Manifest.permission.READ_CONTACTS,Manifest.permission.READ_CALL_LOG},
+                    PETICION_PERMISOS_LLAMADAS);
         }
     }
 

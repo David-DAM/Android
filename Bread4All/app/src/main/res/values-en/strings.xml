@@ -33,4 +33,6 @@
     <string name="opinion">In our opinion</string>
     <string name="Salir">Close</string>
     <string name="Notificacion">Create alert</string>
+    <string name="lista_de_recientes">List of recent</string>
+    <string name="historial_llamadas">Call log</string>
 </resources>

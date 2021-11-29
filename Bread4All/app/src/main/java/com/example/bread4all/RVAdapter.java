@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 //Tenemos que extender de RecyclerView.Adapter e implementar la clase RVAdapter.ViewHolder
@@ -89,7 +91,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
 
-                if (bbdd!=null){
+                if (bbdd!=null && !inicializados(posicion)){
 
                     String sql=("INSERT INTO RECIENTES VALUES(?,?,?)");
                     SQLiteStatement statement =bbdd.compileStatement(sql);
@@ -109,7 +111,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     }
 
     //Metodo que comprueba si ya se han insertado los datos previamente
-    public boolean inicializados(){
+    public boolean inicializados(int posicion){
         boolean res=false;
         String [] camposMostrar= new String[]{"nombre"};
 
@@ -117,7 +119,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
         if (c1.moveToFirst()){
             do {
-                if(c1.getString(0)!=null){
+                if(c1.getString(0).equals(productos.get(posicion).nombre)){
                     res=true;
                 }
             }while (c1.moveToNext());
