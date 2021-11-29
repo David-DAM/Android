@@ -1,6 +1,9 @@
 package com.example.bread4all;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +24,22 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     //Estructura para almacenar los datos a mostrar
     protected List<Producto> productos;
 
+    SQLiteDatabase bbdd;
+    bbddRecientes conexion;
+
+
+
 
     //Constructor en el que cargamos los datos a visualizar
     //Inicializamos el inflador en el contexto de la activity
     RVAdapter(Context contexto, List<Producto> productos) {
         inflador = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.productos = productos;
+        //Conexion con la base de datos de SQLite
+        conexion=new bbddRecientes(contexto,"bbddRecientes",null,1);
+
+        bbdd=conexion.getWritableDatabase();
+
     }
 
 
@@ -46,6 +59,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             precio = (TextView) itemView.findViewById(R.id.precio);
             foto_producto = (ImageView) itemView.findViewById(R.id.foto_producto);
         }
+
     }
 
     //CREAMOS LA VISTA SIN PERSONALIZAR CON DATOS
@@ -75,11 +89,41 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(view.getContext(), productos.get(posicion).nombre, Toast.LENGTH_SHORT).show();
+                if (bbdd!=null){
 
+                    String sql=("INSERT INTO RECIENTES VALUES(?,?,?)");
+                    SQLiteStatement statement =bbdd.compileStatement(sql);
+
+                    statement.clearBindings();
+
+                    statement.bindString(1,productos.get(posicion).nombre);
+                    statement.bindDouble(2,productos.get(posicion).precio);
+                    statement.bindLong(3,productos.get(posicion).fotoId);
+
+                    long rowId= statement.executeInsert();
+
+                }
             }
         });
 
+    }
+
+    //Metodo que comprueba si ya se han insertado los datos previamente
+    public boolean inicializados(){
+        boolean res=false;
+        String [] camposMostrar= new String[]{"nombre"};
+
+        Cursor c1= bbdd.query("recientes",camposMostrar,null,null,null,null,null);
+
+        if (c1.moveToFirst()){
+            do {
+                if(c1.getString(0)!=null){
+                    res=true;
+                }
+            }while (c1.moveToNext());
+        }
+
+        return res;
     }
 
     //INDICAMOS EL NÚMERO DE ELEMENTOS A VISUALIZAR

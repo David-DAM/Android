@@ -70,7 +70,7 @@ public class ProductoActivity extends AppCompatActivity implements SurfaceHolder
     public void cargarMultimedia(View view){
         mediaPlayer.reset();
         try {
-            mediaPlayer.setDataSource(this, Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.video));
+            mediaPlayer.setDataSource(this, Uri.parse("android.resource://"+getPackageName()+"/"));
             mediaPlayer.prepareAsync();
 
         } catch (IOException e) {

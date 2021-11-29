@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -16,6 +17,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CallLog;
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -60,9 +63,6 @@ public class InicioActivity extends AppCompatActivity {
     private List<Producto> productos;
     private RecyclerView.LayoutManager llm;
     private RVAdapter adapter;
-
-    SQLiteDatabase bbdd;
-    bbddRecientes conexion;
 
     TextView textViewMoneda,textViewCantidad,textViewProductoTop;
     ActivityResultLauncher<Intent> activityResultLauncher;
@@ -135,10 +135,6 @@ public class InicioActivity extends AppCompatActivity {
                     }
                 }
         );
-        //Conexion con la base de datos de SQLite
-        conexion=new bbddRecientes(this,"bbddRecientes",null,1);
-
-        bbdd=conexion.getWritableDatabase();
 
         RecyclerView rv = findViewById(R.id.rv);
 
@@ -147,8 +143,6 @@ public class InicioActivity extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
 
         rv.setLayoutManager(llm);
-        //Insertar registros en SQLite
-        insertarRegistros();
         //Obtener registros de SQLite para almacenarlos en el array de productos y poder llenar el recyclerview
         inicializarProductos();
         //Pasamos la lista de productos al adapter para llenar el recyclerview
@@ -197,12 +191,8 @@ public class InicioActivity extends AppCompatActivity {
                 activityResultLauncher.launch(pref);
                 return  true;
             case R.id.SMS:
-                telefono = "658233695";
-                mensaje = "Introduzca su mensaje";
-
-                Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + telefono));
-                smsIntent.putExtra("sms_body", mensaje);
-                startActivity(smsIntent);
+                String text=displaySmsLog();
+                Snackbar.make(findViewById(R.id.topAppBar),text,Snackbar.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -252,6 +242,10 @@ public class InicioActivity extends AppCompatActivity {
     private void inicializarProductos(){
         productos = new ArrayList<>();
 
+        productos.add(new Producto("Bimbo",2.50,R.drawable.ic_historial));
+        productos.add(new Producto("Artesano",4.50,R.drawable.ic_historial));
+        productos.add(new Producto("Viena",3.00,R.drawable.ic_historial));
+        /*
         String [] camposMostrar= new String[]{"nombre","precio","foto"};
 
         if (bbdd!=null){
@@ -263,49 +257,11 @@ public class InicioActivity extends AppCompatActivity {
                 }while (c1.moveToNext());
             }
         }
-
-
-    }
-    //Insertar registros en SQLite al inicializar la Activity, en el caso de que ya se hayan inicializado previamente no volvera a introducir los datos
-    public void insertarRegistros(){
-        String nombres[]={"Bimbo","Artesano","Viena"};
-        double precios[]={2.50,4.50,3.00};
-
-        if (bbdd!=null && !inicializados()){
-            for (int i = 0; i < nombres.length; i++) {
-                String sql=("INSERT INTO RECIENTES VALUES(?,?,?)");
-                SQLiteStatement statement =bbdd.compileStatement(sql);
-
-                statement.clearBindings();
-
-                statement.bindString(1,nombres[i]);
-                statement.bindDouble(2,precios[i]);
-                statement.bindLong(3,R.drawable.ic_historial);
-
-                long rowId= statement.executeInsert();
-            }
-        }
-
-
+        */
 
     }
-    //Metodo que comprueba si ya se han insertado los datos previamente
-    public boolean inicializados(){
-        boolean res=false;
-        String [] camposMostrar= new String[]{"nombre"};
 
-        Cursor c1= bbdd.query("recientes",camposMostrar,null,null,null,null,null);
 
-        if (c1.moveToFirst()){
-            do {
-                if(c1.getString(0)!=null){
-                    res=true;
-                }
-            }while (c1.moveToNext());
-        }
-
-        return res;
-    }
     //Metodo que carga las preferencias que haya seleccionado el usuario y modifica el TextView para mostrar los cambios
     public void loadPref(){
         SharedPreferences mySharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
@@ -327,6 +283,29 @@ public class InicioActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.SEND_SMS},
                     PETICION_PERMISOS_SMS);
         }
+    }
+
+    public String displaySmsLog() {
+        Uri sms= Telephony.Sms.CONTENT_URI;
+        String [] projection= new String[]{Telephony.Sms._ID, Telephony.Sms.TYPE, Telephony.Sms._COUNT};
+        ContentResolver cr=getContentResolver();
+        Cursor cursor = cr.query(sms, projection, null, null, null);
+        String msgData = "";
+        if (cursor.moveToFirst()) { // must check the result to prevent exception
+            do {
+
+                for(int idx=0;idx<cursor.getColumnCount();idx++)
+                {
+                    msgData += " " + cursor.getColumnName(idx) + ":" + cursor.getString(idx);
+                }
+                // use msgData
+            } while (cursor.moveToNext());
+        } else {
+            // empty box, no SMS
+        }
+
+        return msgData;
+
     }
 
 
