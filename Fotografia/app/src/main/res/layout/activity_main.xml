@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+<Button
+android:id="@+id/btn_redi"
+android:layout_width="364dp"
+android:layout_height="56dp"
+android:layout_marginStart="25dp"
+android:layout_marginEnd="25dp"
+android:layout_marginBottom="14dp"
+android:text="HACER FOTO COMPLETA Y REDIMENSIONAR"
+app:layout_constraintBottom_toTopOf="@+id/btn_seleccionar_de_galeria"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/btn_guardar_en_galeria" />
+
+<Button
+android:id="@+id/btn_seleccionar_de_galeria"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:layout_marginStart="25dp"
+android:layout_marginEnd="25dp"
+android:layout_marginBottom="16dp"
+android:text="SELECCIONAR IMAGEN DE GALERIA"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/btn_redi" />
+
+<Button
+android:id="@+id/btn_guardar_en_galeria"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:layout_marginStart="25dp"
+android:layout_marginEnd="25dp"
+android:text="HACER FOTO COMPLETA Y AÑADIR A GALERIA"
+app:layout_constraintBottom_toTopOf="@+id/btn_redi"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/btn_img" />
+
+    <Button
+        android:id="@+id/btn_img"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="hacerFotoThumbnail"
+        android:text="HACER FOTO y OBTENER MINIATURA"
+        app:layout_constraintBottom_toTopOf="@+id/btn_guardar_en_galeria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgView" />
+
+<ImageView
+android:id="@+id/imgView"
+android:layout_width="0dp"
+android:layout_height="0dp"
+android:layout_marginStart="16dp"
+android:layout_marginTop="36dp"
+android:layout_marginEnd="16dp"
+android:layout_marginBottom="128dp"
+app:layout_constraintBottom_toTopOf="@+id/btn_img"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toTopOf="parent"
+tools:srcCompat="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
