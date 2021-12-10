@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -65,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn_redimensionar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+                    tomarCapturaIntent(CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA);
+                }
+            }
+        });
+
 
     }
 
@@ -100,6 +110,34 @@ public class MainActivity extends AppCompatActivity {
 
             },PETICION_PERMISOS);
         }
+    }
+
+    private void setPic(){
+        BitmapFactory.Options bmoptions=new BitmapFactory.Options();
+
+        bmoptions.inJustDecodeBounds=false;
+        bmoptions.inSampleSize=calcularFactor();
+
+        Bitmap bitmap= BitmapFactory.decodeFile(fotoPath,bmoptions);
+
+        imageView.setImageBitmap(bitmap);
+
+
+    }
+
+    private int calcularFactor(){
+        int targetW=imageView.getWidth();
+        int targetH=imageView.getHeight();
+
+        BitmapFactory.Options bmoptions=new BitmapFactory.Options();
+
+        bmoptions.inJustDecodeBounds=true;
+
+        BitmapFactory.decodeFile(fotoPath,bmoptions);
+        int photoW=bmoptions.outWidth;
+        int photoH= bmoptions.outHeight;
+
+        return Math.max(photoW/targetW,photoH/targetH);
     }
 
     private void galleryAddPic(){
@@ -192,6 +230,11 @@ public class MainActivity extends AppCompatActivity {
                 case CAPTURA_IMAGEN_GUARDAR_GALERIA:
                     galleryAddPic();
                     imageView.setImageURI(Uri.fromFile(new File(fotoPath)));
+                break;
+                case CAPTURA_IMAGEN_GUARDAR_GALERIA_REDIMENSIONADA:
+                    setPic();
+                    galleryAddPic();
+                break;
             }
         }
     }

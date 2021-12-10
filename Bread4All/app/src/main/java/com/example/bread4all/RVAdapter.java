@@ -1,6 +1,9 @@
 package com.example.bread4all;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -9,12 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
+
 
 import java.util.List;
 
@@ -28,9 +31,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     SQLiteDatabase bbdd;
     bbddRecientes conexion;
-
-
-
 
     //Constructor en el que cargamos los datos a visualizar
     //Inicializamos el inflador en el contexto de la activity
@@ -103,8 +103,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
                     statement.bindLong(3,productos.get(posicion).fotoId);
 
                     long rowId= statement.executeInsert();
-
                 }
+
             }
         });
 

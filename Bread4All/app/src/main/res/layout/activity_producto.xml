@@ -15,17 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-    <SurfaceView
-        android:id="@+id/superficie"
-        android:layout_width="172dp"
-        android:layout_height="114dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="168dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></SurfaceView>
-
     <TextView
         android:id="@+id/txtPrecio"
         android:layout_width="55dp"
@@ -52,6 +41,7 @@
         android:layout_width="34dp"
         android:layout_height="37dp"
         android:layout_marginStart="76dp"
+        android:onClick="botonIzquierdo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -60,6 +50,7 @@
         android:layout_width="34dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
+        android:onClick="botonDerecho"
         app:layout_constraintBottom_toBottomOf="@+id/radioButtonIzq"
         app:layout_constraintStart_toEndOf="@+id/radioButtonIzq"
         app:layout_constraintTop_toTopOf="@+id/radioButtonIzq"
@@ -83,5 +74,14 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDescripccion" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="172dp"
+        android:layout_height="123dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
