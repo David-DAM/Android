@@ -35,4 +35,8 @@
     <string name="Notificacion">Create alert</string>
     <string name="lista_de_recientes">List of recent</string>
     <string name="historial_llamadas">Call log</string>
+    <string name="Descripccion_generica">A great bread that everyone would like to try</string>
+    <string name="Multimedia">Multimedia comments</string>
+    <string name="Subir_imagen">Upload image</string>
+    <string name="Subir_audio">Upload audio</string>
 </resources>

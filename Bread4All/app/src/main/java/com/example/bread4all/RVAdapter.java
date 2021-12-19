@@ -32,6 +32,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     SQLiteDatabase bbdd;
     bbddRecientes conexion;
 
+    private Context mContext;
+
     //Constructor en el que cargamos los datos a visualizar
     //Inicializamos el inflador en el contexto de la activity
     RVAdapter(Context contexto, List<Producto> productos) {
@@ -39,8 +41,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         this.productos = productos;
         //Conexion con la base de datos de SQLite
         conexion=new bbddRecientes(contexto,"bbddRecientes",null,1);
-
         bbdd=conexion.getWritableDatabase();
+
+        mContext=contexto;
 
     }
 
@@ -104,6 +107,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
                     long rowId= statement.executeInsert();
                 }
+
+                Intent producto=new Intent(mContext,ProductoActivity.class);
+                producto.putExtra("nombre",productos.get(posicion).nombre);
+                producto.putExtra("precio",productos.get(posicion).precio);
+                mContext.startActivity(producto);
 
             }
         });

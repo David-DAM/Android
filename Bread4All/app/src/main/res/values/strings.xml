@@ -40,4 +40,8 @@
     <string name="Notificacion">Crear aviso</string>
     <string name="lista_de_recientes">Lista de recientes</string>
     <string name="historial_llamadas">Historial de llamadas</string>
+    <string name="Descripccion_generica">Un delicioso pan que le encantara probar</string>
+    <string name="Multimedia">Comentarios multimedia</string>
+    <string name="Subir_imagen">Subir imagen</string>
+    <string name="Subir_audio">Subir audio</string>
 </resources>

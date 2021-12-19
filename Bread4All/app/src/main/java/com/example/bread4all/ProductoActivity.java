@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,8 @@ public class ProductoActivity extends AppCompatActivity{
     ImageView imageView;
     VideoView miVideoView;
     MediaController mediaController;
+    TextView nombre,precio;
+    RadioButton izq,der;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,13 @@ public class ProductoActivity extends AppCompatActivity{
 
         imageView=findViewById(R.id.imageView);
         miVideoView=findViewById(R.id.videoView);
+        nombre=findViewById(R.id.txtNombre);
+        precio=findViewById(R.id.txtPrecio);
+        izq=findViewById(R.id.radioButtonIzq);
+        der=findViewById(R.id.radioButtonDerecha);
+
+        RellenarDatos();
+        cargarMultimedia();
 
         miVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -34,6 +45,7 @@ public class ProductoActivity extends AppCompatActivity{
                 miVideoView.start();
                 miVideoView.requestFocus();
                 ponerControles(miVideoView);
+                miVideoView.pause();
             }
         });
 
@@ -51,18 +63,37 @@ public class ProductoActivity extends AppCompatActivity{
     }
 
     public void botonDerecho(View view){
-        imageView.setVisibility(View.INVISIBLE);
-        cargarMultimedia();
-    }
-    public void botonIzquierdo(View view){
+
         miVideoView.stopPlayback();
         miVideoView.setVisibility(View.INVISIBLE);
+        imageView.setVisibility(View.VISIBLE);
+        izq.setChecked(false);
+
+    }
+    public void botonIzquierdo(View view){
+        imageView.setVisibility(View.INVISIBLE);
+        miVideoView.setVisibility(View.VISIBLE);
+        miVideoView.start();
+        der.setChecked(false);
+
     }
 
     public void ponerControles(VideoView videoView){
         mediaController=new MediaController(this);
-        mediaController.setAnchorView((View) videoView.getParent());
         videoView.setMediaController(mediaController);
+        mediaController.setAnchorView(videoView);
+
+    }
+
+    private void RellenarDatos(){
+        if(getIntent().hasExtra("nombre") && getIntent().hasExtra("precio")){
+
+            String nombreI = getIntent().getStringExtra("nombre");
+            Double precioI = getIntent().getDoubleExtra("precio",0.0);
+
+            nombre.setText(nombreI);
+            precio.setText(precioI.toString()+" euros");
+        }
     }
 
 }
