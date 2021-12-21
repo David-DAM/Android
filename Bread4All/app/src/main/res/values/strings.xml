@@ -44,4 +44,8 @@
     <string name="Multimedia">Comentarios multimedia</string>
     <string name="Subir_imagen">Subir imagen</string>
     <string name="Subir_audio">Subir audio</string>
+    <string name="Subir">Subir</string>
+    <string name="Subir_video">Subir video</string>
+    <string name="Tomar_foto">Tomar foto</string>
+    <string name="Grabar_video">Grabar video</string>
 </resources>

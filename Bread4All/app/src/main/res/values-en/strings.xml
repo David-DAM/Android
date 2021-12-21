@@ -39,4 +39,8 @@
     <string name="Multimedia">Multimedia comments</string>
     <string name="Subir_imagen">Upload image</string>
     <string name="Subir_audio">Upload audio</string>
+    <string name="Subir">Upload</string>
+    <string name="Subir_video">Upload video</string>
+    <string name="Tomar_foto">Take photo</string>
+    <string name="Grabar_video">Record video</string>
 </resources>
