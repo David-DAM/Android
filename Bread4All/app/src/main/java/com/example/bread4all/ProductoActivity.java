@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -14,8 +16,11 @@ import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RadioButton;
@@ -28,20 +33,25 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ProductoActivity extends AppCompatActivity{
+public class ProductoActivity extends AppCompatActivity implements MediaController.MediaPlayerControl{
     ImageView imageView,imageViewComentarios;
     VideoView miVideoView;
     MediaController mediaController;
-    TextView nombre,precio;
+    TextView nombre,precio,moneda;
     RadioButton izq,der;
+    Button subir;
 
     SoundPool soundPool;
     private int idSonido1,idSonido2;
     int posVideo=0;
 
-    private final static int GRABAR_VIDEO=5,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
+    private final static int PETICION_PERMISO_GRABACION=6,GRABAR_VIDEO=5,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
     private int permissionCheck,permissionCheck2,permissionCheck3;
     private String fotoPath="";
+
+    MediaController mediaControllerAudio;
+    private MediaPlayer mediaPlayer;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +63,18 @@ public class ProductoActivity extends AppCompatActivity{
         miVideoView=findViewById(R.id.videoView);
         nombre=findViewById(R.id.txtNombre);
         precio=findViewById(R.id.txtPrecio);
+        moneda=findViewById(R.id.txtMoneda);
         izq=findViewById(R.id.radioButtonIzq);
         der=findViewById(R.id.radioButtonDerecha);
+        subir=findViewById(R.id.buttonSubir);
 
         imageView.setImageURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.pan));
         RellenarDatos();
         cargarSonidos();
+        loadPref();
+
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO},
+                PETICION_PERMISO_GRABACION);
 
         miVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -74,6 +90,27 @@ public class ProductoActivity extends AppCompatActivity{
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
 
+            }
+        });
+
+        mediaPlayer=new MediaPlayer();
+        mediaControllerAudio=new MediaController(this);
+
+        mediaControllerAudio.setMediaPlayer(this);
+        mediaControllerAudio.setAnchorView(findViewById(R.id.videoView));
+        mediaControllerAudio.setVisibility(View.INVISIBLE);
+        handler=new Handler();
+
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //mediaControllerAudio.show(20000);
+                        mediaPlayer.start();
+                    }
+                });
             }
         });
 
@@ -126,7 +163,7 @@ public class ProductoActivity extends AppCompatActivity{
             Double precioI = getIntent().getDoubleExtra("precio",0.0);
 
             nombre.setText(nombreI);
-            precio.setText(precioI.toString()+" euros");
+            precio.setText(precioI.toString());
         }
     }
 
@@ -265,25 +302,38 @@ public class ProductoActivity extends AppCompatActivity{
                     imageViewComentarios.setImageURI(path);
                     imageViewComentarios.setVisibility(View.VISIBLE);
                     miVideoView.setVisibility(View.INVISIBLE);
+                    subir.setEnabled(true);
                 break;
                 case CARGAR_VIDEO_GALERIA:
                     Uri path2=data.getData();
                     miVideoView.setVideoURI(path2);
                     miVideoView.setVisibility(View.VISIBLE);
                     imageViewComentarios.setVisibility(View.INVISIBLE);
+                    subir.setEnabled(true);
                 break;
                 case CAPTURA_IMAGEN_GUARDAR_GALERIA:
                     galleryAddPic();
                     miVideoView.setVisibility(View.INVISIBLE);
                     imageViewComentarios.setImageURI(Uri.fromFile(new File(fotoPath)));
+                    subir.setEnabled(true);
                 break;
                 case GRABAR_VIDEO:
                     miVideoView.setVideoURI(data.getData());
                     miVideoView.setVisibility(View.VISIBLE);
                     imageViewComentarios.setVisibility(View.INVISIBLE);
+                    subir.setEnabled(true);
                 break;
                 case CARGAR_AUDIO_GALERIA:
                     Uri path3=data.getData();
+                    try {
+                        mediaPlayer.setDataSource(this, path3);
+                        mediaPlayer.prepare();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                    miVideoView.setVisibility(View.VISIBLE);
+                    mediaControllerAudio.setVisibility(View.VISIBLE);
+                    subir.setEnabled(true);
                 break;
             }
         }
@@ -314,8 +364,14 @@ public class ProductoActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        soundPool.release();
-        soundPool=null;
+        if (soundPool!=null){
+            soundPool.release();
+            soundPool=null;
+        }else if (mediaPlayer!=null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+
 
     }
 
@@ -323,9 +379,83 @@ public class ProductoActivity extends AppCompatActivity{
         playSonido1();
         imageViewComentarios.setImageURI(null);
         miVideoView.setVisibility(View.INVISIBLE);
+        mediaPlayer.reset();
+        mediaControllerAudio.setVisibility(View.INVISIBLE);
         Toast.makeText(this, "Comentario subido", Toast.LENGTH_SHORT).show();
+        subir.setEnabled(false);
     }
 
+    public void loadPref(){
+        SharedPreferences mySharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
+        String monedaPreference;
+
+        monedaPreference= mySharedPreferences.getString("moneda","euros");
+
+        moneda.setText(monedaPreference);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mediaControllerAudio.show();
+        return false;
+    }
+
+    @Override
+    public void start() {
+        mediaPlayer.start();
+    }
+
+    @Override
+    public void pause() {
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }
+    }
+
+    @Override
+    public int getDuration() {
+        return mediaPlayer.getDuration();
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        mediaPlayer.seekTo(pos);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
+    }
 
 }
