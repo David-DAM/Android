@@ -4,6 +4,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -14,7 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.cardview.widget.CardView;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -54,6 +60,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         CardView cv;
         TextView nombre;
         TextView precio;
+        TextView moneda;
         ImageView foto_producto;
 
         //Recibimos una vista con lo que contiene
@@ -62,6 +69,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
             cv = (CardView) itemView.findViewById(R.id.cv);
             nombre = (TextView) itemView.findViewById(R.id.nombre_producto);
             precio = (TextView) itemView.findViewById(R.id.precio);
+            moneda=itemView.findViewById(R.id.moneda);
             foto_producto = (ImageView) itemView.findViewById(R.id.foto_producto);
         }
 
@@ -81,13 +89,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     //RELLENAR LOS DATOS DEL VIEWHOLDER
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i)  {
 
         final int posicion = i;
 
         viewHolder.nombre.setText(productos.get(posicion).nombre);
         viewHolder.precio.setText(String.valueOf(productos.get(posicion).precio));
         viewHolder.foto_producto.setImageResource(productos.get(posicion).fotoId);
+        viewHolder.moneda.setText(loadPref());
 
         //Asignamos un listener
         viewHolder.cv.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +143,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         }
 
         return res;
+    }
+
+    public String loadPref(){
+        SharedPreferences mySharedPreferences= PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        String monedaPreference;
+
+        monedaPreference= mySharedPreferences.getString("moneda","euros");
+
+        return monedaPreference;
     }
 
     //INDICAMOS EL NÚMERO DE ELEMENTOS A VISUALIZAR

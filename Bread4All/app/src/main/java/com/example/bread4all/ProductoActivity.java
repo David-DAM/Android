@@ -41,17 +41,18 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     RadioButton izq,der;
     Button subir;
 
-    SoundPool soundPool;
+    private SoundPool soundPool;
     private int idSonido1,idSonido2;
-    int posVideo=0;
+    int pos=0;
 
     private final static int PETICION_PERMISO_GRABACION=6,GRABAR_VIDEO=5,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
     private int permissionCheck,permissionCheck2,permissionCheck3;
-    private String fotoPath="";
+    private String fotoPath="",archivoSalida="";
+    Uri path3;
 
     MediaController mediaControllerAudio;
-    private MediaPlayer mediaPlayer;
-    private Handler handler;
+    MediaPlayer mediaPlayer;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,6 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //mediaControllerAudio.show(20000);
                         mediaPlayer.start();
                     }
                 });
@@ -115,47 +115,28 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         });
 
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle estadoGuardado){
-        super.onSaveInstanceState(estadoGuardado);
-
-        if (miVideoView!=null){
-            posVideo=miVideoView.getCurrentPosition();
-            estadoGuardado.putInt("posicion",posVideo);
-        }
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle estadoGuardado) {
-        super.onRestoreInstanceState(estadoGuardado);
-
-        if (estadoGuardado!=null && miVideoView!=null){
-            posVideo=estadoGuardado.getInt("posicion");
-        }
-
-    }
-
+    //Cambia a la segunda imagen
     public void botonDerecho(View view){
         playSonido2();
-        imageView.setImageURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.ic_historial));
+        imageView.setImageURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.pan2));
         izq.setChecked(false);
 
     }
+    //Cambia a la primera imagen
     public void botonIzquierdo(View view){
         playSonido2();
         imageView.setImageURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.pan));
         der.setChecked(false);
 
     }
-
+    //Pone lo controles de reproduccion del mediaplayer
     public void ponerControles(VideoView videoView){
         mediaController=new MediaController(this);
         videoView.setMediaController(mediaController);
         mediaController.setAnchorView(videoView);
 
     }
-
+    //Rellena los datos referentes al producto
     private void RellenarDatos(){
         if(getIntent().hasExtra("nombre") && getIntent().hasExtra("precio")){
 
@@ -166,42 +147,46 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             precio.setText(precioI.toString());
         }
     }
-
+    //Reproduce un sonido y llama al intent para seleccionar una imagen
     public void SubirImagen(View view){
         playSonido1();
         cargarImagen();
     }
+    //Reproduce un sonido y llama al intent para seleccionar un video
     public void SubirVideo(View view){
         playSonido1();
         cargarVideo();
     }
+    //Reproduce un sonido y llama al intent para seleccionar un audio
     public void SubirAudio(View view){
         playSonido1();
         cargarAudio();
     }
-
+    //Selecciona el archivo y envia el resultado al metodo onActivityResult
     private void cargarImagen(){
         Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent,CARGAR_IMAGEN_GALERIA);
     }
+    //Selecciona el archivo y envia el resultado al metodo onActivityResult
     private void cargarVideo(){
         Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         intent.setType("video/");
         startActivityForResult(intent,CARGAR_VIDEO_GALERIA);
     }
+    //Selecciona el archivo y envia el resultado al metodo onActivityResult
     private void cargarAudio(){
         Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent,CARGAR_AUDIO_GALERIA);
     }
-
+    //Reproduce un sonido y llama al metodo para capturar una imagen
     public void TomarFoto(View view){
         playSonido1();
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             tomarCapturaIntent(CAPTURA_IMAGEN_GUARDAR_GALERIA);
         }
     }
-
+    //Comprueba los permisos, llama a la camara para tomar una foto, crea la foto y envia el resultado al metodo onActivityResult
     public void tomarCapturaIntent(int code){
         permissionCheck= ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissionCheck2= ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -235,7 +220,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             },PETICION_PERMISOS);
         }
     }
-
+    //Crea una imagen
     private File createImageFile(){
         File image=null;
 
@@ -256,7 +241,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         }
         return image;
     }
-
+    //Guarda la imagen creada en la galeria
     private void galleryAddPic(){
         Intent mediaScanIntent= new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f=new File(fotoPath);
@@ -264,7 +249,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
     }
-
+    //Reproduce un sonido y llama a la camara para grabar un video, luego envia el resultado al metodo onActivityResult
     public void comenzarGrabacion(View view){
         playSonido1();
         Intent intent=new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -275,7 +260,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             startActivityForResult(intent,GRABAR_VIDEO);
         }
     }
-
+    //Toma las medidas necesarias si no se tienen todos los permisos concedidos
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -291,7 +276,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                 break;
         }
     }
-
+    //Realiza las acciones correspondientes segun el resultado obtenido en el requestCode
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -324,7 +309,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                     subir.setEnabled(true);
                 break;
                 case CARGAR_AUDIO_GALERIA:
-                    Uri path3=data.getData();
+                    path3=data.getData();
                     try {
                         mediaPlayer.setDataSource(this, path3);
                         mediaPlayer.prepare();
@@ -338,7 +323,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             }
         }
     }
-
+    //Carga los sonidos
     public void cargarSonidos(){
         AudioAttributes audioAttributes=new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -352,10 +337,11 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         idSonido1=soundPool.load(this,R.raw.click,0);
         idSonido2=soundPool.load(this,R.raw.zas,0);
     }
+    //Reproduce el primer sonido
     public void playSonido1(){
         soundPool.play(idSonido1,1,1,1,0,1);
     }
-
+    //Reproduce el segundo sonido
     public void playSonido2()
     {
         soundPool.play(idSonido2,1,1,1,0,1);
@@ -374,7 +360,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
 
 
     }
-
+    //Limpia la pantalla para simular la subida de un comentario
     public void Subir(View view){
         playSonido1();
         imageViewComentarios.setImageURI(null);
@@ -384,7 +370,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         Toast.makeText(this, "Comentario subido", Toast.LENGTH_SHORT).show();
         subir.setEnabled(false);
     }
-
+    //Carga las preferencias
     public void loadPref(){
         SharedPreferences mySharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -456,6 +442,45 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     @Override
     public int getAudioSessionId() {
         return 0;
+    }
+    //Guarda el estado del mediaplayer
+    @Override
+    protected void onSaveInstanceState(Bundle estadoGuardado){
+        super.onSaveInstanceState(estadoGuardado);
+
+        if (mediaPlayer!=null && path3!=null){
+            pos=mediaPlayer.getCurrentPosition();
+            archivoSalida=path3.toString();
+            estadoGuardado.putInt("posicion",pos);
+            estadoGuardado.putString("archivo",archivoSalida);
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+    }
+    //Restaura el estado del mediaplayer
+    @Override
+    protected void onRestoreInstanceState(Bundle estadoGuardado) {
+        super.onRestoreInstanceState(estadoGuardado);
+
+        if (estadoGuardado!=null && mediaPlayer!=null){
+            pos=estadoGuardado.getInt("posicion");
+            archivoSalida=estadoGuardado.getString("archivo");
+            path3=Uri.parse(archivoSalida);
+
+            try {
+                mediaPlayer.setDataSource(this,path3);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            mediaPlayer.seekTo(pos);
+            mediaControllerAudio.setVisibility(View.VISIBLE);
+            miVideoView.setVisibility(View.VISIBLE);
+            subir.setEnabled(true);
+        }
+
     }
 
 }

@@ -289,12 +289,12 @@ public class InicioActivity extends AppCompatActivity {
     private void inicializarProductos(){
         productos = new ArrayList<>();
 
-        productos.add(new Producto("Bimbo",2.50,R.drawable.ic_historial));
-        productos.add(new Producto("Artesano",4.50,R.drawable.ic_historial));
-        productos.add(new Producto("Viena",3.00,R.drawable.ic_historial));
-        productos.add(new Producto("Molde",1.00,R.drawable.ic_historial));
-        productos.add(new Producto("Italiano",5.00,R.drawable.ic_historial));
-        productos.add(new Producto("Tostado",3.50,R.drawable.ic_historial));
+        productos.add(new Producto("Pan bimbo",2.50,R.drawable.ic_historial));
+        productos.add(new Producto("Pan artesano",4.50,R.drawable.ic_historial));
+        productos.add(new Producto("Pan de viena",3.00,R.drawable.ic_historial));
+        productos.add(new Producto("Pan de molde",1.00,R.drawable.ic_historial));
+        productos.add(new Producto("Pan italiano",5.00,R.drawable.ic_historial));
+        productos.add(new Producto("Pan tostado",3.50,R.drawable.ic_historial));
 
 
     }

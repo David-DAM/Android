@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
-        android:layout_width="match_parent"
+        android:layout_width="645dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@android:color/holo_orange_light"
         app:cardCornerRadius="10dp"
@@ -15,7 +15,7 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
+            android:layout_width="644dp"
             android:layout_height="match_parent"
             android:padding="16dp">
 
@@ -43,7 +43,7 @@
                 android:layout_width="57dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/nombre_producto"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="231dp"
                 android:layout_marginTop="0dp"
                 android:layout_toRightOf="@+id/foto_producto"
                 android:textAlignment="center"
