@@ -50,9 +50,9 @@
 
     <TextView
         android:id="@+id/txtNombre"
-        android:layout_width="76dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="64dp"
+        android:layout_width="85dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="55dp"
         android:layout_marginTop="40dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +62,8 @@
         android:id="@+id/txtDescripccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:text="DESCRIPCCION"
+        android:layout_marginEnd="44dp"
+        android:text="@string/Descripcion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 

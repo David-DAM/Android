@@ -43,4 +43,12 @@
     <string name="Subir_video">Upload video</string>
     <string name="Tomar_foto">Take photo</string>
     <string name="Grabar_video">Record video</string>
+    <string name="Descripcion">Description</string>
+    <string name="Opinion">In our opinion</string>
+    <string name="Duda">Question</string>
+    <string name="Introduzca">Enter your question</string>
+    <string name="Entrada">Entry</string>
+    <string name="Salida">Exit</string>
+    <string name="Perdida">Lost</string>
+    <string name="Trabajando">We are working on increasing the balance</string>
 </resources>

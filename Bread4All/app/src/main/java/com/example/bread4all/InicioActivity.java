@@ -62,6 +62,8 @@ public class InicioActivity extends AppCompatActivity {
 
     private static String TAGLOG="firebase-db";
 
+    String opinion,duda,insertar,entrada,salida,perdida,trabajando;
+
     String telefono,mensaje;
     int PETICION_PERMISOS_LLAMADAS=0;
 
@@ -80,10 +82,11 @@ public class InicioActivity extends AppCompatActivity {
         textViewCantidad=findViewById(R.id.textViewCantidad);
         textViewProductoTop=findViewById(R.id.textViewProductoTop);
 
+        opinion=getString(R.string.opinion);
         textViewProductoTop.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Snackbar.make(findViewById(R.id.topAppBar),"Segun nuestra opinion",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.topAppBar),opinion,Snackbar.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -165,10 +168,12 @@ public class InicioActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.ayuda:
+                duda=getString(R.string.Duda);
+                insertar=getString(R.string.Introduzca);
                 Intent intent=new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_SUBJECT,"DUDA");
-                intent.putExtra(Intent.EXTRA_TEXT,"Introduzca su duda");
+                intent.putExtra(Intent.EXTRA_SUBJECT,duda);
+                intent.putExtra(Intent.EXTRA_TEXT,insertar);
                 intent.putExtra(Intent.EXTRA_EMAIL,new String[]{"soporteBread4All@gamil.com"});
                 startActivity(intent);
                 return true;
@@ -191,6 +196,9 @@ public class InicioActivity extends AppCompatActivity {
 
     public String llamadas(){
 
+        entrada=getString(R.string.Entrada);
+        salida=getString(R.string.Salida);
+        perdida=getString(R.string.Perdida);
         StringBuilder texto=new StringBuilder();
         String text;
 
@@ -225,11 +233,11 @@ public class InicioActivity extends AppCompatActivity {
                 telefono=cur.getString(colTelefono);
 
                 if (tipo==CallLog.Calls.INCOMING_TYPE){
-                    tipoLlamada="Entrada";
+                    tipoLlamada=entrada;
                 }else if (tipo==CallLog.Calls.OUTGOING_TYPE){
-                    tipoLlamada="Salida";
+                    tipoLlamada=salida;
                 }else if (tipo==CallLog.Calls.MISSED_TYPE){
-                    tipoLlamada="Perdida";
+                    tipoLlamada=perdida;
                 }
 
                 texto.append(id+" - "+tipoLlamada+" - "+telefono+"\n");
@@ -263,10 +271,10 @@ public class InicioActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-
+        trabajando=getString(R.string.Trabajando);
         switch (item.getItemId()){
             case R.id.Añadir:
-                Snackbar.make(findViewById(R.id.topAppBar),"Estamos trabajando en aumentar el saldo",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.topAppBar),trabajando,Snackbar.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -289,12 +297,12 @@ public class InicioActivity extends AppCompatActivity {
     private void inicializarProductos(){
         productos = new ArrayList<>();
 
-        productos.add(new Producto("Pan bimbo",2.50,R.drawable.ic_historial));
-        productos.add(new Producto("Pan artesano",4.50,R.drawable.ic_historial));
-        productos.add(new Producto("Pan de viena",3.00,R.drawable.ic_historial));
-        productos.add(new Producto("Pan de molde",1.00,R.drawable.ic_historial));
-        productos.add(new Producto("Pan italiano",5.00,R.drawable.ic_historial));
-        productos.add(new Producto("Pan tostado",3.50,R.drawable.ic_historial));
+        productos.add(new Producto("Pan bimbo",2.50,R.drawable.pan));
+        productos.add(new Producto("Pan artesano",4.50,R.drawable.pan));
+        productos.add(new Producto("Pan de viena",3.00,R.drawable.pan2));
+        productos.add(new Producto("Pan de molde",1.00,R.drawable.pan2));
+        productos.add(new Producto("Pan italiano",5.00,R.drawable.pan));
+        productos.add(new Producto("Pan tostado",3.50,R.drawable.pan2));
 
 
     }

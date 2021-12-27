@@ -10,4 +10,5 @@ public class Producto {
         this.precio = precio;
         this.fotoId = fotoId;
     }
+
 }

@@ -45,10 +45,10 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     private int idSonido1,idSonido2;
     int pos=0;
 
-    private final static int PETICION_PERMISO_GRABACION=6,GRABAR_VIDEO=5,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
+    private final static int PETICION_PERMISO_GRABACION=6,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
     private int permissionCheck,permissionCheck2,permissionCheck3;
     private String fotoPath="",archivoSalida="";
-    Uri path3;
+    Uri path3,path2;
 
     MediaController mediaControllerAudio;
     MediaPlayer mediaPlayer;
@@ -70,8 +70,11 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         subir=findViewById(R.id.buttonSubir);
 
         imageView.setImageURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.pan));
+        //Llamada la metodo par arellenar datos
         RellenarDatos();
+        //Llamada al metodo para cargar sonidos
         cargarSonidos();
+        //Llamada al metodo para cargar preferencias
         loadPref();
 
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO},
@@ -257,7 +260,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT,10);
 
         if (intent.resolveActivity(getPackageManager())!=null){
-            startActivityForResult(intent,GRABAR_VIDEO);
+            startActivityForResult(intent,CARGAR_VIDEO_GALERIA);
         }
     }
     //Toma las medidas necesarias si no se tienen todos los permisos concedidos
@@ -290,7 +293,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                     subir.setEnabled(true);
                 break;
                 case CARGAR_VIDEO_GALERIA:
-                    Uri path2=data.getData();
+                    path2=data.getData();
                     miVideoView.setVideoURI(path2);
                     miVideoView.setVisibility(View.VISIBLE);
                     imageViewComentarios.setVisibility(View.INVISIBLE);
@@ -300,12 +303,6 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                     galleryAddPic();
                     miVideoView.setVisibility(View.INVISIBLE);
                     imageViewComentarios.setImageURI(Uri.fromFile(new File(fotoPath)));
-                    subir.setEnabled(true);
-                break;
-                case GRABAR_VIDEO:
-                    miVideoView.setVideoURI(data.getData());
-                    miVideoView.setVisibility(View.VISIBLE);
-                    imageViewComentarios.setVisibility(View.INVISIBLE);
                     subir.setEnabled(true);
                 break;
                 case CARGAR_AUDIO_GALERIA:
@@ -455,7 +452,18 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             estadoGuardado.putString("archivo",archivoSalida);
             mediaPlayer.stop();
             mediaPlayer.release();
+
+        }else if (miVideoView!=null && path2!=null){
+
+            pos=miVideoView.getCurrentPosition();
+            archivoSalida=path2.toString();
+            estadoGuardado.putInt("posicion",pos);
+            estadoGuardado.putString("archivo",archivoSalida);
+            miVideoView.stopPlayback();
         }
+
+
+
     }
     //Restaura el estado del mediaplayer
     @Override
@@ -477,6 +485,17 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
 
             mediaPlayer.seekTo(pos);
             mediaControllerAudio.setVisibility(View.VISIBLE);
+            miVideoView.setVisibility(View.VISIBLE);
+            subir.setEnabled(true);
+
+        }else if (estadoGuardado!=null && miVideoView!=null){
+            pos=estadoGuardado.getInt("posicion");
+            archivoSalida=estadoGuardado.getString("archivo");
+            path2=Uri.parse(archivoSalida);
+
+            miVideoView.setVideoURI(path2);
+            miVideoView.seekTo(pos);
+            mediaController.setVisibility(View.VISIBLE);
             miVideoView.setVisibility(View.VISIBLE);
             subir.setEnabled(true);
         }
