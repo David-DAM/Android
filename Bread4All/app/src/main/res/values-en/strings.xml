@@ -51,4 +51,12 @@
     <string name="Salida">Exit</string>
     <string name="Perdida">Lost</string>
     <string name="Trabajando">We are working on increasing the balance</string>
+    <string name="pregunta">¿Do you want to close the aplication?</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="pregNoti">¿Do you want to create the notification?</string>
+    <string name="recordatorio">Reminder</string>
+    <string name="notificacion">Buy youre bread later</string>
+    <string name="subido">Comment uploaded</string>
+    <string name="deshacer">Undo</string>
 </resources>

@@ -23,6 +23,7 @@ public class LogearActivity extends AppCompatActivity {
     String CHANNEL_ID="notificaciones_channel_id_1";
     int notificacionId=123;
     Button salir,notificacion;
+    String pregunta,si,no,salida,pregnoti,recordatorio,noti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,27 +35,36 @@ public class LogearActivity extends AppCompatActivity {
 
         salir=findViewById(R.id.buttonSalir);
         notificacion=findViewById(R.id.buttonNotificacion);
+
+        pregunta=getString(R.string.pregunta);
+        si=getString(R.string.si);
+        no=getString(R.string.no);
+        salida=getString(R.string.Salida);
+        pregnoti=getString(R.string.pregNoti);
+        recordatorio=getString(R.string.recordatorio);
+        noti=getString(R.string.notificacion);
+
         //Creamos interfaz para asegurarnos si desea salir de la aplicacion
         salir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alerta=new AlertDialog.Builder(LogearActivity.this);
-                alerta.setMessage("¿Desea salir de la aplicación?")
+                alerta.setMessage(pregunta)
                         .setCancelable(false)
-                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(si, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 finish();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
                             }
                         });
                 AlertDialog titulo= alerta.create();
-                titulo.setTitle("Salida");
+                titulo.setTitle(salida);
                 titulo.show();
             }
         });
@@ -63,22 +73,22 @@ public class LogearActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alerta=new AlertDialog.Builder(LogearActivity.this);
-                alerta.setMessage("¿Desea crear la notificacion?")
+                alerta.setMessage(pregnoti)
                         .setCancelable(false)
-                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(si, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 emitirNotificacionConAccesoApp();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
                             }
                         });
                 AlertDialog titulo= alerta.create();
-                titulo.setTitle("Salida");
+                titulo.setTitle(salida);
                 titulo.show();
             }
         });
@@ -116,7 +126,7 @@ public class LogearActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
+    //Emite la notificacion
     public void emitirNotificacionConAccesoApp(){
         Intent intent=new Intent(this,LogearActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -124,8 +134,8 @@ public class LogearActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Recordatorio")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Compre su pan más adelante"))
+                .setContentTitle(recordatorio)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(noti))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

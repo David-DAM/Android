@@ -56,4 +56,12 @@
     <string name="Salida">Salida</string>
     <string name="Perdida">Perdida</string>
     <string name="Trabajando">Estamos trabajando en aumentar el saldo</string>
+    <string name="pregunta">¿Desea salir de la aplicación?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="pregNoti">¿Desea crear la notificacion?</string>
+    <string name="recordatorio">Recordatorio</string>
+    <string name="notificacion">Compre su pan más adelante</string>
+    <string name="subido">Comentario subido</string>
+    <string name="deshacer">Deshacer</string>
 </resources>

@@ -47,7 +47,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
 
     private final static int PETICION_PERMISO_GRABACION=6,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
     private int permissionCheck,permissionCheck2,permissionCheck3;
-    private String fotoPath="",archivoSalida="";
+    private String fotoPath="",archivoSalida="",subido;
     Uri path3,path2;
 
     MediaController mediaControllerAudio;
@@ -360,11 +360,12 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     //Limpia la pantalla para simular la subida de un comentario
     public void Subir(View view){
         playSonido1();
+        subido=getString(R.string.subido);
         imageViewComentarios.setImageURI(null);
         miVideoView.setVisibility(View.INVISIBLE);
         mediaPlayer.reset();
         mediaControllerAudio.setVisibility(View.INVISIBLE);
-        Toast.makeText(this, "Comentario subido", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, subido, Toast.LENGTH_SHORT).show();
         subir.setEnabled(false);
     }
     //Carga las preferencias

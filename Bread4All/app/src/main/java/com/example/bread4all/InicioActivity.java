@@ -111,6 +111,7 @@ public class InicioActivity extends AppCompatActivity {
                 Log.e(TAGLOG,"Error",databaseError.toException());
             }
         };
+
         //Listener que comprueba si cambian los datos en FireBase
         dbReference.addValueEventListener(eventListener);
 
@@ -135,8 +136,37 @@ public class InicioActivity extends AppCompatActivity {
         llm = new LinearLayoutManager(this);
 
         rv.setLayoutManager(llm);
-        //Obtener registros de SQLite para almacenarlos en el array de productos y poder llenar el recyclerview
-        inicializarProductos();
+
+        productos=new ArrayList<>();
+
+        //Obtener registros para almacenarlos en el array de productos y poder llenar el recyclerview
+        //En caso de que cambien los valores se limpia el array de productos y se carga de nuevo
+        dbReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int cont=0;
+                String pos=String.valueOf(cont);
+
+                productos.clear();
+
+                while (snapshot.child(pos).exists()){
+                    String nombre=snapshot.child(pos).child("Nombre").getValue().toString();
+                    Double precio=Double.valueOf(snapshot.child(pos).child("Precio").getValue().toString());
+                    Producto producto=new Producto(nombre,precio,R.drawable.pan);
+                    productos.add(producto);
+                    cont++;
+                    pos=String.valueOf(cont);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
         //Pasamos la lista de productos al adapter para llenar el recyclerview
         adapter = new RVAdapter(this, productos);
 
@@ -293,7 +323,7 @@ public class InicioActivity extends AppCompatActivity {
             }
         }
     }
-    //Metodo que  obtener registros de SQLite para almacenarlos en el array de productos y poder llenar el recyclerview
+    //Metodo que  rellena el array de productos y para el recyclerview
     private void inicializarProductos(){
         productos = new ArrayList<>();
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecientesActivity extends AppCompatActivity {
@@ -25,6 +26,8 @@ public class RecientesActivity extends AppCompatActivity {
     private List<Producto> productos;
     private RecyclerView.LayoutManager llm;
     private RVAdapter adapter;
+
+    String deshacer;
 
 
     @Override
@@ -52,11 +55,19 @@ public class RecientesActivity extends AppCompatActivity {
 
         rv.setAdapter(adapter);
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 // this method is called
                 // when the item is moved.
+
+                int origen=viewHolder.getAdapterPosition();
+                int destino= target.getAdapterPosition();
+
+                Collections.swap(productos,origen,destino);
+
+                recyclerView.getAdapter().notifyItemMoved(origen,destino);
+
                 return false;
             }
 
@@ -86,8 +97,10 @@ public class RecientesActivity extends AppCompatActivity {
                 // below line is to notify our item is removed from adapter.
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 
+                deshacer=getString(R.string.deshacer);
+
                 // below line is to display our snackbar with action.
-                Snackbar.make(rv, deletedCourse.nombre, Snackbar.LENGTH_LONG).setAction("DESHACER", new View.OnClickListener() {
+                Snackbar.make(rv, deletedCourse.nombre, Snackbar.LENGTH_LONG).setAction(deshacer, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // adding on click listener to our action of snack bar.
@@ -117,6 +130,7 @@ public class RecientesActivity extends AppCompatActivity {
 
     }
 
+    //Rellena el array de productos para el reciclerview
     public void inicializar(){
         productos=new ArrayList<>();
         String [] camposMostrar= new String[]{"nombre","precio"};
@@ -127,12 +141,24 @@ public class RecientesActivity extends AppCompatActivity {
             if (c1.moveToFirst()){
                 do {
                     productos.add(new Producto(c1.getString(0),c1.getDouble(1),R.drawable.ic_historial));
-
                 }while (c1.moveToNext());
             }
         }
 
+    }
 
+    public void ordenar(){
+        String [] camposMostrar= new String[]{"preferencia"};
+        List<Producto> ordenada=new ArrayList<>();
 
+        if (bbdd!=null){
+            Cursor c1= bbdd.query("recientes",camposMostrar,null,null,null,null,null);
+
+            if (c1.moveToFirst()){
+                do {
+                   ordenada.add(productos.get( c1.getInt(0) ) );
+                }while (c1.moveToNext());
+            }
+        }
     }
 }
