@@ -146,19 +146,4 @@ public class RecientesActivity extends AppCompatActivity {
         }
 
     }
-
-    public void ordenar(){
-        String [] camposMostrar= new String[]{"preferencia"};
-        List<Producto> ordenada=new ArrayList<>();
-
-        if (bbdd!=null){
-            Cursor c1= bbdd.query("recientes",camposMostrar,null,null,null,null,null);
-
-            if (c1.moveToFirst()){
-                do {
-                   ordenada.add(productos.get( c1.getInt(0) ) );
-                }while (c1.moveToNext());
-            }
-        }
-    }
 }

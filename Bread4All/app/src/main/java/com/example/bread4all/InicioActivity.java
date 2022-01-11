@@ -64,7 +64,6 @@ public class InicioActivity extends AppCompatActivity {
 
     String opinion,duda,insertar,entrada,salida,perdida,trabajando;
 
-    String telefono,mensaje;
     int PETICION_PERMISOS_LLAMADAS=0;
 
     @Override
@@ -346,31 +345,5 @@ public class InicioActivity extends AppCompatActivity {
                     PETICION_PERMISOS_LLAMADAS);
         }
     }
-
-    public String displaySmsLog() {
-        Uri sms= Telephony.Sms.CONTENT_URI;
-        String [] projection= new String[]{Telephony.Sms._ID, Telephony.Sms.TYPE, Telephony.Sms._COUNT};
-        ContentResolver cr=getContentResolver();
-        Cursor cursor = cr.query(sms, projection, null, null, null);
-        String msgData = "";
-        if (cursor.moveToFirst()) { // must check the result to prevent exception
-            do {
-
-                for(int idx=0;idx<cursor.getColumnCount();idx++)
-                {
-                    msgData += " " + cursor.getColumnName(idx) + ":" + cursor.getString(idx);
-                }
-                // use msgData
-            } while (cursor.moveToNext());
-        } else {
-            // empty box, no SMS
-        }
-
-        return msgData;
-
-    }
-
-
-
 
 }
