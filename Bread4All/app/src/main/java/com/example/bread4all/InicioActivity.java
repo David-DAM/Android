@@ -323,19 +323,6 @@ public class InicioActivity extends AppCompatActivity {
             }
         }
     }
-    //Metodo que  rellena el array de productos y para el recyclerview
-    private void inicializarProductos(){
-        productos = new ArrayList<>();
-
-        productos.add(new Producto("Pan bimbo",2.50,R.drawable.pan));
-        productos.add(new Producto("Pan artesano",4.50,R.drawable.pan));
-        productos.add(new Producto("Pan de viena",3.00,R.drawable.pan2));
-        productos.add(new Producto("Pan de molde",1.00,R.drawable.pan2));
-        productos.add(new Producto("Pan italiano",5.00,R.drawable.pan));
-        productos.add(new Producto("Pan tostado",3.50,R.drawable.pan2));
-
-
-    }
 
 
     //Metodo que carga las preferencias que haya seleccionado el usuario y modifica el TextView para mostrar los cambios
