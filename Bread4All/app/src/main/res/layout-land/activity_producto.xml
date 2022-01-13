@@ -7,13 +7,15 @@
 
     <TextView
         android:id="@+id/txtContenidoDescripcion"
-        android:layout_width="142dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="186dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
         android:text="@string/Descripccion_generica"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescripccion" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescripccion"
+        app:layout_constraintVertical_bias="0.0" />
 
     <RadioButton
         android:id="@+id/radioButtonDerecha"
@@ -41,10 +43,9 @@
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="148dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="56dp"
         android:contentDescription="Pan"
-        app:layout_constraintEnd_toStartOf="@+id/txtContenidoDescripcion"
-        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,11 +63,13 @@
         android:id="@+id/txtDescripccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
+        android:layout_marginTop="20dp"
         android:text="@string/Descripcion"
         android:textAllCaps="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/txtMoneda"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="@+id/txtNombre"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
 
     <RadioButton
         android:id="@+id/radioButtonIzq"
@@ -81,37 +84,38 @@
         android:id="@+id/textViewComentarios"
         android:layout_width="184dp"
         android:layout_height="26dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="16dp"
         android:text="@string/Multimedia"
         android:textAllCaps="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtContenidoDescripcion" />
+        app:layout_constraintEnd_toEndOf="@+id/imageViewComentarios"
+        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintStart_toStartOf="@+id/imageViewComentarios"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewComentarios"
         android:layout_width="221dp"
         android:layout_height="204dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewComentarios"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.045"
         tools:srcCompat="@tools:sample/avatars" />
 
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="225dp"
         android:layout_height="208dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewComentarios"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewComentarios"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/buttonSubir"
@@ -125,18 +129,18 @@
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="@+id/imageViewComentarios"
         app:layout_constraintTop_toBottomOf="@+id/imageViewComentarios"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.323" />
 
     <Button
         android:id="@+id/buttonFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="SubirImagen"
         android:text="@string/Subir_imagen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toEndOf="@+id/imageViewComentarios"
         app:layout_constraintTop_toTopOf="@+id/imageViewComentarios" />
 
@@ -149,7 +153,7 @@
         android:onClick="TomarFoto"
         android:text="@string/Tomar_foto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toEndOf="@+id/imageViewComentarios"
         app:layout_constraintTop_toBottomOf="@+id/buttonFoto" />
 
@@ -162,7 +166,7 @@
         android:onClick="SubirVideo"
         android:text="@string/Subir_video"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toEndOf="@+id/imageViewComentarios"
         app:layout_constraintTop_toBottomOf="@+id/buttonAudio" />
 
@@ -175,7 +179,7 @@
         android:onClick="comenzarGrabacion"
         android:text="@string/Grabar_video"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toEndOf="@+id/imageViewComentarios"
         app:layout_constraintTop_toBottomOf="@+id/buttonVideo" />
 
@@ -187,7 +191,7 @@
         android:onClick="SubirAudio"
         android:text="@string/Subir_audio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.369"
         app:layout_constraintStart_toEndOf="@+id/imageViewComentarios"
         app:layout_constraintTop_toBottomOf="@+id/buttonTomarFoto" />
 

@@ -47,8 +47,8 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
 
     private final static int PETICION_PERMISO_GRABACION=6,CARGAR_IMAGEN_GALERIA=4,CARGAR_AUDIO_GALERIA=3,CARGAR_VIDEO_GALERIA=2,CAPTURA_IMAGEN_GUARDAR_GALERIA=1,PETICION_PERMISOS=0;
     private int permissionCheck,permissionCheck2,permissionCheck3;
-    private String fotoPath="",archivoSalida="",subido;
-    Uri path3,path2;
+    private String fotoPath="",archivoSalida="",archivoSalidaVideo="",subido;
+    Uri path3,path2,path1;
 
     MediaController mediaControllerAudio;
     MediaPlayer mediaPlayer;
@@ -320,6 +320,20 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             }
         }
     }
+    //Muestra un video en streaming
+    public void Streaming(View view){
+        String ruta="https://www.scratchya.com.ar/video1.mp4";
+        path1=Uri.parse(ruta);
+
+        miVideoView.setVideoURI(path1);
+        miVideoView.requestFocus();
+        miVideoView.start();
+        miVideoView.setVisibility(View.VISIBLE);
+        imageViewComentarios.setVisibility(View.INVISIBLE);
+        subir.setEnabled(true);
+
+    }
+
     //Carga los sonidos
     public void cargarSonidos(){
         AudioAttributes audioAttributes=new AudioAttributes.Builder()
@@ -447,6 +461,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         super.onSaveInstanceState(estadoGuardado);
 
         if (mediaPlayer!=null && path3!=null){
+
             pos=mediaPlayer.getCurrentPosition();
             archivoSalida=path3.toString();
             estadoGuardado.putInt("posicion",pos);
@@ -457,9 +472,17 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         }else if (miVideoView!=null && path2!=null){
 
             pos=miVideoView.getCurrentPosition();
-            archivoSalida=path2.toString();
+            archivoSalidaVideo=path2.toString();
             estadoGuardado.putInt("posicion",pos);
-            estadoGuardado.putString("archivo",archivoSalida);
+            estadoGuardado.putString("archivoVideo",archivoSalidaVideo);
+            miVideoView.stopPlayback();
+
+        }else if (miVideoView!=null && path1!=null){
+
+            pos=miVideoView.getCurrentPosition();
+            archivoSalidaVideo=path1.toString();
+            estadoGuardado.putInt("posicion",pos);
+            estadoGuardado.putString("archivoVideo",archivoSalidaVideo);
             miVideoView.stopPlayback();
         }
 
@@ -470,10 +493,14 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     @Override
     protected void onRestoreInstanceState(Bundle estadoGuardado) {
         super.onRestoreInstanceState(estadoGuardado);
-
-        if (estadoGuardado!=null && mediaPlayer!=null){
+        if (estadoGuardado!=null){
             pos=estadoGuardado.getInt("posicion");
             archivoSalida=estadoGuardado.getString("archivo");
+            archivoSalidaVideo=estadoGuardado.getString("archivoVideo");
+        }
+
+        if (archivoSalida!=null){
+
             path3=Uri.parse(archivoSalida);
 
             try {
@@ -483,18 +510,21 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                 e.printStackTrace();
             }
 
-
             mediaPlayer.seekTo(pos);
             mediaControllerAudio.setVisibility(View.VISIBLE);
             miVideoView.setVisibility(View.VISIBLE);
             subir.setEnabled(true);
 
-        }else if (estadoGuardado!=null && miVideoView!=null){
-            pos=estadoGuardado.getInt("posicion");
-            archivoSalida=estadoGuardado.getString("archivo");
-            path2=Uri.parse(archivoSalida);
+        }else if (archivoSalidaVideo!=null){
 
-            miVideoView.setVideoURI(path2);
+            if (archivoSalidaVideo.contains("http")){
+                path1=Uri.parse(archivoSalidaVideo);
+                miVideoView.setVideoURI(path1);
+            }else {
+                path2=Uri.parse(archivoSalidaVideo);
+                miVideoView.setVideoURI(path2);
+            }
+
             miVideoView.seekTo(pos);
             mediaController.setVisibility(View.VISIBLE);
             miVideoView.setVisibility(View.VISIBLE);
