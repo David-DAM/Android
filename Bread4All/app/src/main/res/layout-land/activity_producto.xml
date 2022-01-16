@@ -171,7 +171,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonAudio" />
 
     <Button
-        android:id="@+id/buttonVideo3"
+        android:id="@+id/buttonGrabacion"
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -206,13 +206,13 @@
         app:layout_constraintTop_toTopOf="@+id/txtPrecio" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonStreaming"
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:onClick="Streaming"
         android:text="STREAMING"
-        app:layout_constraintEnd_toEndOf="@+id/buttonVideo3"
-        app:layout_constraintStart_toStartOf="@+id/buttonVideo3"
-        app:layout_constraintTop_toBottomOf="@+id/buttonVideo3" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonGrabacion"
+        app:layout_constraintStart_toStartOf="@+id/buttonGrabacion"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGrabacion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

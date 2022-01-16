@@ -39,7 +39,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     MediaController mediaController;
     TextView nombre,precio,moneda;
     RadioButton izq,der;
-    Button subir;
+    Button subir,imagen,foto,audio,video,grabacion,streaming;
 
     private SoundPool soundPool;
     private int idSonido1,idSonido2;
@@ -68,6 +68,12 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         izq=findViewById(R.id.radioButtonIzq);
         der=findViewById(R.id.radioButtonDerecha);
         subir=findViewById(R.id.buttonSubir);
+        imagen=findViewById(R.id.buttonFoto);
+        foto=findViewById(R.id.buttonTomarFoto);
+        audio=findViewById(R.id.buttonAudio);
+        video=findViewById(R.id.buttonVideo);
+        grabacion=findViewById(R.id.buttonGrabacion);
+        streaming=findViewById(R.id.buttonStreaming);
 
         imageView.setImageURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.drawable.pan));
         //Llamada la metodo par arellenar datos
@@ -279,6 +285,17 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                 break;
         }
     }
+    //Activa los botones para subir otro comentario
+    public void desactivarBotones(){
+        imagen.setEnabled(false);foto.setEnabled(false);audio.setEnabled(false);
+        video.setEnabled(false);grabacion.setEnabled(false);streaming.setEnabled(false);
+    }
+    //Descativa los botones hasta que se suba un comentario
+    public void activarBotones(){
+        imagen.setEnabled(true);foto.setEnabled(true);audio.setEnabled(true);
+        video.setEnabled(true);grabacion.setEnabled(true);streaming.setEnabled(true);
+    }
+
     //Realiza las acciones correspondientes segun el resultado obtenido en el requestCode
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -290,20 +307,26 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                     imageViewComentarios.setImageURI(path);
                     imageViewComentarios.setVisibility(View.VISIBLE);
                     miVideoView.setVisibility(View.INVISIBLE);
+                    mediaControllerAudio.setVisibility(View.INVISIBLE);
                     subir.setEnabled(true);
+                    desactivarBotones();
                 break;
                 case CARGAR_VIDEO_GALERIA:
                     path2=data.getData();
                     miVideoView.setVideoURI(path2);
                     miVideoView.setVisibility(View.VISIBLE);
                     imageViewComentarios.setVisibility(View.INVISIBLE);
+                    mediaControllerAudio.setVisibility(View.INVISIBLE);
                     subir.setEnabled(true);
+                    desactivarBotones();
                 break;
                 case CAPTURA_IMAGEN_GUARDAR_GALERIA:
                     galleryAddPic();
                     miVideoView.setVisibility(View.INVISIBLE);
                     imageViewComentarios.setImageURI(Uri.fromFile(new File(fotoPath)));
+                    mediaControllerAudio.setVisibility(View.INVISIBLE);
                     subir.setEnabled(true);
+                    desactivarBotones();
                 break;
                 case CARGAR_AUDIO_GALERIA:
                     path3=data.getData();
@@ -316,12 +339,14 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
                     miVideoView.setVisibility(View.VISIBLE);
                     mediaControllerAudio.setVisibility(View.VISIBLE);
                     subir.setEnabled(true);
+                    desactivarBotones();
                 break;
             }
         }
     }
     //Muestra un video en streaming
     public void Streaming(View view){
+        playSonido1();
         String ruta="https://www.scratchya.com.ar/video1.mp4";
         path1=Uri.parse(ruta);
 
@@ -331,7 +356,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         miVideoView.setVisibility(View.VISIBLE);
         imageViewComentarios.setVisibility(View.INVISIBLE);
         subir.setEnabled(true);
-
+        desactivarBotones();
     }
 
     //Carga los sonidos
@@ -377,10 +402,15 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         subido=getString(R.string.subido);
         imageViewComentarios.setImageURI(null);
         miVideoView.setVisibility(View.INVISIBLE);
+        miVideoView.setVideoURI(null);
         mediaPlayer.reset();
         mediaControllerAudio.setVisibility(View.INVISIBLE);
         Toast.makeText(this, subido, Toast.LENGTH_SHORT).show();
+        path1=null;
+        path2=null;
+        path3=null;
         subir.setEnabled(false);
+        activarBotones();
     }
     //Carga las preferencias
     public void loadPref(){
@@ -455,7 +485,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     public int getAudioSessionId() {
         return 0;
     }
-    //Guarda el estado del mediaplayer
+    //Guarda el estado del mediaplayer y videoview
     @Override
     protected void onSaveInstanceState(Bundle estadoGuardado){
         super.onSaveInstanceState(estadoGuardado);
@@ -489,7 +519,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
 
 
     }
-    //Restaura el estado del mediaplayer
+    //Restaura el estado del mediaplayer y videoview
     @Override
     protected void onRestoreInstanceState(Bundle estadoGuardado) {
         super.onRestoreInstanceState(estadoGuardado);
@@ -514,6 +544,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             mediaControllerAudio.setVisibility(View.VISIBLE);
             miVideoView.setVisibility(View.VISIBLE);
             subir.setEnabled(true);
+            desactivarBotones();
 
         }else if (archivoSalidaVideo!=null){
 
@@ -526,9 +557,9 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
             }
 
             miVideoView.seekTo(pos);
-            mediaController.setVisibility(View.VISIBLE);
             miVideoView.setVisibility(View.VISIBLE);
             subir.setEnabled(true);
+            desactivarBotones();
         }
 
     }
