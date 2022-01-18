@@ -37,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locListener;
     LocationManager locManager;
     int PETICION_PERMISOS=0;
+    PolylineOptions linea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(loc != null) {
 
-            PolylineOptions linea= new PolylineOptions()
+            linea= new PolylineOptions()
                     .add(new LatLng(loc.getLatitude(),loc.getLongitude()));
             linea.width(7);
             linea.color(Color.RED);
