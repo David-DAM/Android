@@ -564,4 +564,9 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
 
     }
 
+    public void activarMapa(View view){
+        Intent mapa=new Intent(this,MapaActivity.class);
+        startActivity(mapa);
+    }
+
 }

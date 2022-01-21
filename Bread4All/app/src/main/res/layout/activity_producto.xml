@@ -211,4 +211,15 @@
         app:layout_constraintStart_toStartOf="@+id/buttonGrabacion"
         app:layout_constraintTop_toBottomOf="@+id/buttonGrabacion" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="activarMapa"
+        android:text="@string/mapa"
+        app:layout_constraintBottom_toBottomOf="@+id/txtContenidoDescripcion"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

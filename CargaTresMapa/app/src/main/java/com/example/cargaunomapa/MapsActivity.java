@@ -38,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locManager;
     int PETICION_PERMISOS=0;
     PolylineOptions linea;
+    double latitudAntigua,longitudAntigua;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,16 +193,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void mostrarPosicion(Location loc) {
 
         if(loc != null) {
+            LatLng pos =new LatLng(loc.getLatitude(),loc.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
 
             linea= new PolylineOptions()
-                    .add(new LatLng(loc.getLatitude(),loc.getLongitude()));
+                    .add(new LatLng(loc.getLatitude(),loc.getLongitude()))
+                    .add(new LatLng(latitudAntigua,longitudAntigua));
             linea.width(7);
             linea.color(Color.RED);
-
-            mMap.addPolyline(linea);
-
-
-        } else {
+            if (latitudAntigua!=0 && longitudAntigua!=0){
+                mMap.addPolyline(linea);
+            }
+            latitudAntigua=loc.getLatitude();
+            longitudAntigua=loc.getLongitude();
 
         }
 

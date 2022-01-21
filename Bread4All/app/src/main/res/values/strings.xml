@@ -64,4 +64,6 @@
     <string name="notificacion">Compre su pan más adelante</string>
     <string name="subido">Comentario subido</string>
     <string name="deshacer">Deshacer</string>
+    <string name="mapa">Mapa</string>
+    <string name="cloud_map_id" translatable="false">31e01dd2eac2e465</string>
 </resources>
