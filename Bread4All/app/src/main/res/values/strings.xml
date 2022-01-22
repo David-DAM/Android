@@ -66,4 +66,6 @@
     <string name="deshacer">Deshacer</string>
     <string name="mapa">Mapa</string>
     <string name="cloud_map_id" translatable="false">31e01dd2eac2e465</string>
+    <string name="localizar">Localizar</string>
+    <string name="hibrido">Modo hibrido</string>
 </resources>

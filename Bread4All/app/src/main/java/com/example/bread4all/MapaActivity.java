@@ -1,13 +1,18 @@
 package com.example.bread4all;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,6 +25,7 @@ import com.google.android.libraries.maps.CameraUpdateFactory;
 import com.google.android.libraries.maps.GoogleMap;
 import com.google.android.libraries.maps.OnMapReadyCallback;
 import com.google.android.libraries.maps.SupportMapFragment;
+import com.google.android.libraries.maps.model.BitmapDescriptor;
 import com.google.android.libraries.maps.model.BitmapDescriptorFactory;
 import com.google.android.libraries.maps.model.CameraPosition;
 import com.google.android.libraries.maps.model.LatLng;
@@ -30,19 +36,31 @@ import com.google.android.libraries.maps.model.PolylineOptions;
 
 public class MapaActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
-    private static final String TAG="Error app mapas";
+    private static final String TAG = "Error app mapas";
 
     LocationListener locListener;
     LocationManager locManager;
-    int PETICION_PERMISOS=0;
+    int PETICION_PERMISOS = 0;
     PolylineOptions linea;
-    double latitudAntigua,longitudAntigua;
+    double latitudAntigua, longitudAntigua;
+    String nombre,precio;
+    boolean activado=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_mapa);
+
+        RellenarDatos();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PETICION_PERMISOS);
+
+        }
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -72,29 +90,25 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
 
-
             }
 
         };
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng CiudadReal = new LatLng(38.985909009251955, -3.9273314158285726);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        addMarkers();
+
+        CameraPosition camPar = new CameraPosition.Builder()
+                .target(CiudadReal)
+                .zoom(15)
+                .build();
+        CameraUpdate camaraOpciones = CameraUpdateFactory.newCameraPosition(camPar);
+
+        mMap.animateCamera(camaraOpciones);
 
         mMap.getUiSettings().setMapToolbarEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -103,35 +117,67 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mMap.addMarker(new MarkerOptions().position(latLng));
+
             }
         });
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                MarkerOptions options= new MarkerOptions().position(latLng)
-                        //.icon(BitmapDescriptorFactory.fromResource(R.drawable.maps_sv_error_icon));         //Cambiar icono
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));  //Cambiar color
-                mMap.addMarker(options);
-
+                mMap.clear();
+                addMarkers();
             }
         });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                LatLng position= marker.getPosition();
-                String mostrar="Posicion: "+position.latitude+","+position.longitude;
-                Toast.makeText(getApplicationContext(),mostrar,Toast.LENGTH_LONG).show();
+                LatLng position = marker.getPosition();
+                String mostrar = "Posicion: " + position.latitude + "," + position.longitude;
+                Toast.makeText(getApplicationContext(), mostrar, Toast.LENGTH_LONG).show();
 
                 return false;
             }
         });
+
+
     }
 
-    public void moverACiudadReal(View view){
-        LatLng CiudadReal =new LatLng(38.985909009251955, -3.9273314158285726);
+    private void RellenarDatos(){
+        if(getIntent().hasExtra("nombre") && getIntent().hasExtra("precio")){
+
+            nombre = getIntent().getStringExtra("nombre");
+            precio = getIntent().getStringExtra("precio");
+        }
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    public void addMarkers(){
+        LatLng tienda1=new LatLng(38.98341212498277, -3.9268962977584057);
+        LatLng tienda2=new LatLng(38.98509574266197, -3.9232123488358983);
+        LatLng tienda3=new LatLng(38.985462304277625, -3.927172972369847);
+        LatLng tienda4=new LatLng(38.991506447337656, -3.9302606503879125);
+
+        MarkerOptions options = new MarkerOptions()
+                .title(nombre+" "+precio+" €")
+                .icon(bitmapDescriptorFromVector(this,R.drawable.ic_bread_vector));
+
+        mMap.addMarker((options).position(tienda1));
+        mMap.addMarker((options).position(tienda2));
+        mMap.addMarker((options).position(tienda3));
+        mMap.addMarker((options).position(tienda4));
+    }
+
+    public void moverACiudadReal(View view) {
+        LatLng CiudadReal = new LatLng(38.985909009251955, -3.9273314158285726);
         CameraPosition camPar = new CameraPosition.Builder()
                 .target(CiudadReal)
                 .zoom(15)
@@ -142,57 +188,47 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.animateCamera(camaraOpciones);
 
-        Marker marker= mMap.addMarker(new MarkerOptions().position(CiudadReal).title("Marker in Royal City"));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(CiudadReal).title("Marker in Royal City"));
 
     }
 
-    public void moverAMadrid(View view){
-        LatLng Madrid =new LatLng(40.42637129872075, -3.702891515536429);
-        CameraUpdate cameraOpciones= CameraUpdateFactory.newLatLng(Madrid);
-        mMap.moveCamera(cameraOpciones);
-        mMap.addMarker(new MarkerOptions().position(Madrid).title("Marcardor en Madrid"));
-
-        dibujarRuta();
-    }
-
-    public void CambiarAHybrid(View view){
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-    }
-
-    public void dibujarRuta(){
-        PolylineOptions linea= new PolylineOptions()
-                .add(new LatLng(38.985909009251955, -3.9273314158285726))
-                .add(new LatLng(40.42637129872075, -3.702891515536429));
-        linea.width(7);
-        linea.color(Color.RED);
-
-        mMap.addPolyline(linea);
-
+    public void CambiarAHybrid(View view) {
+        if (!activado){
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            activado=true;
+        }else {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            activado=false;
+        }
 
     }
+
 
     private void comenzarLocalizacion() {
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PETICION_PERMISOS);
-
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
         Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         mostrarPosicion(loc);
 
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,locListener);
-
     }
 
     private void mostrarPosicion(Location loc) {
 
         if(loc != null) {
             LatLng pos =new LatLng(loc.getLatitude(),loc.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(pos));
 
             linea= new PolylineOptions()
                     .add(new LatLng(loc.getLatitude(),loc.getLongitude()))
@@ -209,7 +245,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void comenzarPintar(View view){
+    public void comenzarLocalizacion(View view){
         comenzarLocalizacion();
     }
 }

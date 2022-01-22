@@ -5,7 +5,7 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\b15-10m\\Documents\\almacenDam2.jks')
+            storeFile file('C:\\Users\\Usuario\\AndroidStudioProjects\\Android\\almacenDam2.jks')
             storePassword '16022000'
             keyAlias 'keyDam2'
             keyPassword '16022000'

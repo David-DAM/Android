@@ -102,28 +102,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         viewHolder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int pref=0;
+
 
                 if (bbdd!=null && !inicializados(posicion)){
 
                     String sql=("INSERT INTO RECIENTES VALUES(?,?,?)");
                     SQLiteStatement statement =bbdd.compileStatement(sql);
                     statement.clearBindings();
-                    /*
-                    Cursor c1= bbdd.rawQuery("SELECT count() from recientes",null);
-
-                    if (c1.moveToFirst()){
-
-                        pref=c1.getInt(0);
-
-                    }
-
-                     */
 
                     statement.bindString(1,productos.get(posicion).nombre);
                     statement.bindDouble(2,productos.get(posicion).precio);
                     statement.bindLong(3,productos.get(posicion).fotoId);
-                    //statement.bindLong(4,pref);
 
                     long rowId= statement.executeInsert();
                 }

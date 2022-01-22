@@ -60,4 +60,6 @@
     <string name="subido">Comment uploaded</string>
     <string name="deshacer">Undo</string>
     <string name="mapa">Map</string>
+    <string name="localizar">Locate</string>
+    <string name="hibrido">Hybrid mode</string>
 </resources>
