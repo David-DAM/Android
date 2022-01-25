@@ -565,6 +565,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     }
 
     public void activarMapa(View view){
+        playSonido1();
         Intent mapa=new Intent(this,MapaActivity.class);
         mapa.putExtra("nombre",nombre.getText());
         mapa.putExtra("precio",precio.getText());

@@ -169,8 +169,6 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 ArrayList<LatLng> points = null;
                 PolylineOptions lineOptions = null;
 
-
-
                 // recorriendo todas las rutas
                 for(int i=0;i<Utilidades.routes.size();i++){
                     points = new ArrayList<LatLng>();
