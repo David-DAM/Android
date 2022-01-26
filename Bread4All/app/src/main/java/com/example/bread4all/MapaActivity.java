@@ -86,7 +86,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        //En caso de que cambie la posiscion nos redirigira y dibujara el camino
         locListener = new LocationListener() {
 
             public void onLocationChanged(Location location) {
@@ -140,7 +140,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
+        //Limpia las lineas dibujadas y vuelve a poner los marcadores
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -148,7 +148,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
                 addMarkers();
             }
         });
-
+        /*
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -212,9 +212,11 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+         */
+
 
     }
-
+    //Rellena los datos con el producto para el marcador
     private void RellenarDatos(){
         if(getIntent().hasExtra("nombre") && getIntent().hasExtra("precio")){
 
@@ -222,7 +224,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             precio = getIntent().getStringExtra("precio");
         }
     }
-
+    //Permite convertir una imagen vectorial como marcador
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
@@ -231,7 +233,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
-
+    //Añade los marcadores en el mapa
     public void addMarkers(){
         LatLng tienda1=new LatLng(38.98341212498277, -3.9268962977584057);
         LatLng tienda2=new LatLng(38.98509574266197, -3.9232123488358983);
@@ -248,22 +250,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker((options).position(tienda4));
     }
 
-    public void moverACiudadReal(View view) {
-        LatLng CiudadReal = new LatLng(38.985909009251955, -3.9273314158285726);
-        CameraPosition camPar = new CameraPosition.Builder()
-                .target(CiudadReal)
-                .zoom(15)
-                .bearing(45)    //rotacion
-                .tilt(60)       //inclinacion
-                .build();
-        CameraUpdate camaraOpciones = CameraUpdateFactory.newCameraPosition(camPar);
-
-        mMap.animateCamera(camaraOpciones);
-
-        Marker marker = mMap.addMarker(new MarkerOptions().position(CiudadReal).title("Marker in Royal City"));
-
-    }
-
+    //Cambia el mapa a modo hibrido
     public void CambiarAHybrid(View view) {
         if (!activado){
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -275,7 +262,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
+    //Comienza a localizarnos
     private void comenzarLocalizacion() {
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -292,18 +279,17 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         }
         Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         mostrarPosicion(loc);
-        latitudAntigua=loc.getLatitude();
-        longitudAntigua=loc.getLongitude();
 
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,locListener);
     }
 
+    //Dibuja el recorrido que hacemos
     private void mostrarPosicion(Location loc) {
 
         if(loc != null) {
             LatLng pos =new LatLng(loc.getLatitude(),loc.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLng(pos));
-            /*
+
             linea= new PolylineOptions()
                     .add(new LatLng(loc.getLatitude(),loc.getLongitude()))
                     .add(new LatLng(latitudAntigua,longitudAntigua));
@@ -315,15 +301,16 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
             latitudAntigua=loc.getLatitude();
             longitudAntigua=loc.getLongitude();
 
-             */
+
         }
 
     }
-
+    //Activa la localizacion
     public void comenzarLocalizacion(View view){
         comenzarLocalizacion();
     }
 
+    //Obtiene un archivo JSON con la  ruta entre dos posiciones
     private void webServiceObtenerRuta(String latitudInicial, String longitudInicial, String latitudFinal, String longitudFinal) {
 
         String url="https://maps.googleapis.com/maps/api/directions/json?origin="+latitudInicial+","+longitudInicial
@@ -387,51 +374,7 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         request.add(jsonObjectRequest);
     }
 
-    public List<List<HashMap<String,String>>> parse(JSONObject jObject){
-        //Este método PARSEA el JSONObject que retorna del API de Rutas de Google devolviendo
-        //una lista del lista de HashMap Strings con el listado de Coordenadas de Lat y Long,
-        //con la cual se podrá dibujar pollinas que describan la ruta entre 2 puntos.
-        JSONArray jRoutes = null;
-        JSONArray jLegs = null;
-        JSONArray jSteps = null;
-
-        try {
-
-            jRoutes = jObject.getJSONArray("routes");
-
-            /** Traversing all routes */
-            for(int i=0;i<jRoutes.length();i++){
-                jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
-                List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
-
-                /** Traversing all legs */
-                for(int j=0;j<jLegs.length();j++){
-                    jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
-
-                    /** Traversing all steps */
-                    for(int k=0;k<jSteps.length();k++){
-                        String polyline = "";
-                        polyline = (String)((JSONObject)((JSONObject)jSteps.get(k)).get("polyline")).get("points");
-                        List<LatLng> list = decodePoly(polyline);
-
-                        /** Traversing all points */
-                        for(int l=0;l<list.size();l++){
-                            HashMap<String, String> hm = new HashMap<String, String>();
-                            hm.put("lat", Double.toString(((LatLng)list.get(l)).latitude) );
-                            hm.put("lng", Double.toString(((LatLng)list.get(l)).longitude) );
-                            path.add(hm);
-                        }
-                    }
-                    Utilidades.routes.add(path);
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }catch (Exception e){
-        }
-        return Utilidades.routes;
-    }
-
+    //Permite obtener las latitudes y longitudes
     private List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<LatLng>();

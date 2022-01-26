@@ -185,7 +185,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
     }
     //Selecciona el archivo y envia el resultado al metodo onActivityResult
     private void cargarAudio(){
-        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        Intent intent=new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent,CARGAR_AUDIO_GALERIA);
     }
     //Reproduce un sonido y llama al metodo para capturar una imagen
@@ -563,7 +563,7 @@ public class ProductoActivity extends AppCompatActivity implements MediaControll
         }
 
     }
-
+    //Llama a la activity mapa
     public void activarMapa(View view){
         playSonido1();
         Intent mapa=new Intent(this,MapaActivity.class);
