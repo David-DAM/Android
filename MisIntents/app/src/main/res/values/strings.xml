@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">MisIntents</string>
-    <string name="abrir_pagina_web">ABRIR PAGINA WEB</string>
-    <string name="llamar_por_telefono">LLAMAR POR TELEFONO</string>
-    <string name="abrir_google_maps">ABRIR GOOGLE MAPS</string>
-    <string name="mandar_correo">MANDAR CORREO</string>
-    <string name="crear_alarma">CREAR ALARMA</string>
-</resources>
